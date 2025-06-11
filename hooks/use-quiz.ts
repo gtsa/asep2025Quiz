@@ -14,10 +14,17 @@ export function useQuiz() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const fetchQuestions = async (limit?: number) => {
+  const fetchQuestions = async (limit?: number, categories?: string[]) => {
     try {
       setLoading(true)
-      const response = await fetch(`/api/questions?limit=${limit}`)
+
+      const params = new URLSearchParams()
+      if (limit !== undefined) params.append("limit", limit.toString())
+      if (categories && categories.length > 0) {
+        categories.forEach(cat => params.append("categories", cat))
+      }
+
+      const response = await fetch(`/api/questions?${params.toString()}`)
       const data = await response.json()
 
       if (!response.ok) {
