@@ -1,10 +1,16 @@
 export interface Question {
   id: string
-  question: string
-  options: string[]
+  question?: string
+  options: {
+    α: string
+    β: string
+    γ: string
+    δ: string
+  }
   correctAnswer?: string
   category?: string
   difficulty?: string
+  indexInCategory?: number
 }
 
 export interface QuizState {

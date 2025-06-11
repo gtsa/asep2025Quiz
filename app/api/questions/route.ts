@@ -1,17 +1,14 @@
 import { NextResponse } from "next/server"
 import { parseCSV, convertCSVToQuestions } from "@/lib/csv-parser"
+import { promises as fs } from "fs"
+import path from "path"
 
 export async function GET() {
   try {
-    const response = await fetch(
-      "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/data_asep-Yg1B6JYgWILSZ5uK5hGtGC7c1buwNL.csv",
-    )
+    const filePath = path.join(process.cwd(), "public", "data", "data_asep.csv")
+    const csvBuffer = await fs.readFile(filePath)
+    const csvText = csvBuffer.toString("utf-8")
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch CSV data")
-    }
-
-    const csvText = await response.text()
     const csvRows = parseCSV(csvText)
     const questions = convertCSVToQuestions(csvRows)
 
