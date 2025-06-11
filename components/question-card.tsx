@@ -52,11 +52,14 @@ export function QuestionCard({
       
       <CardContent className="pt-0">
         <div className="space-y-3">
+         
+
+
           {shuffledOptions.map(([key, option], index) => {
-            const isSelected = selectedAnswer === key
-            const isCorrect = question.correctAnswer === key
+            const isSelected = selectedAnswer === option
+            const isCorrect = question.correctAnswer === option
             const showAsCorrect = selectedAnswer && isCorrect
-            const showAsWrong = selectedAnswer === key && !isCorrect
+            const showAsWrong = isSelected && !isCorrect
 
             return (
               <Button
@@ -78,6 +81,7 @@ export function QuestionCard({
               </Button>
             )
           })}
+
         </div>
       </CardContent>
     </Card>

@@ -8,6 +8,7 @@ export interface Question {
     δ: string
   }
   correctAnswer?: string
+  correctAnswerKey?: string
   category?: string
   difficulty?: string
   indexInCategory?: number

@@ -84,23 +84,68 @@ export function Quiz({
   }
 
   if (quizState.isCompleted) {
-    const answeredQuestions = Object.keys(quizState.answers).length
+  const answeredQuestions = Object.keys(quizState.answers).length
+  const percentage = Math.round((quizState.score / questions.length) * 100)
+  const color = percentage >= 75 ? "green" : percentage >= 50 ? "yellow" : "red"
+
+  const colorMap = {
+    green: {
+      bg: "bg-green-100",
+      text: "text-green-700",
+      border: "border-green-600",
+      softBg: "bg-green-50",
+      softText: "text-green-800",
+      softTextAlt: "text-green-600"
+    },
+    yellow: {
+      bg: "bg-yellow-100",
+      text: "text-yellow-700",
+      border: "border-yellow-600",
+      softBg: "bg-yellow-50",
+      softText: "text-yellow-800",
+      softTextAlt: "text-yellow-600"
+    },
+    red: {
+      bg: "bg-red-100",
+      text: "text-red-700",
+      border: "border-red-600",
+      softBg: "bg-red-50",
+      softText: "text-red-800",
+      softTextAlt: "text-red-600"
+    }
+  }
+
+  const styles = colorMap[color]
 
     return (
       <div className="px-4">
         <Card className="w-full mx-auto">
           <CardHeader className="text-center pb-4">
-            <CheckCircle className="w-20 h-20 text-green-600 mx-auto mb-4" />
-            <CardTitle className="text-2xl sm:text-3xl text-green-700">Quiz Completed! 🎉</CardTitle>
+                  <div className={`w-24 h-24 rounded-full mx-auto mb-2 flex items-center justify-center text-4xl font-extrabold border-4 ${styles.bg} ${styles.text} ${styles.border}`}>
+                    {percentage}%
+                  </div>
+                  <CardTitle className={`text-lg sm:text-xl font-semibold ${styles.text}`}>
+                    Quiz Completed{percentage === 100 ? " 🎉" : ""}
+                  </CardTitle>
+                  {percentage < 50 && (
+                    <p className="text-sm font-medium text-red-600 mt-2">Try harder. You can do it!</p>
+                  )}
           </CardHeader>
           <CardContent className="text-center space-y-6">
-            <div className="bg-green-50 rounded-lg p-4">
-              <p className="text-lg font-semibold text-green-800">
-                You answered {answeredQuestions} out of {questions.length} questions
+            <div className={`rounded-lg p-4 ${styles.softBg}`}>
+              <p className={`text-lg font-semibold ${styles.softText}`}>
+                You answered correctly {quizState.score} out of {questions.length} questions
               </p>
-              <p className="text-sm text-green-600 mt-1">Great job completing the practice quiz!</p>
+              <p className={`text-sm mt-1 ${styles.softTextAlt}`}>
+                {percentage === 100
+                  ? "Perfect score! 🎯"
+                  : percentage >= 75
+                  ? "Great job completing the practice quiz!"
+                  : percentage >= 50
+                  ? "Keep it up, you're getting there!"
+                  : "Review the material and try again!"}
+              </p>
             </div>
-
             <div className="space-y-3">
               <h3 className="font-semibold text-lg">Your Answers Summary:</h3>
               <div className="bg-gray-50 rounded-lg p-4 max-h-80 overflow-y-auto">
@@ -110,9 +155,14 @@ export function Quiz({
                       <p className="font-medium text-sm mb-1">
                         Q{index + 1}: {question.question}
                       </p>
-                      <p className="text-xs text-muted-foreground bg-white px-2 py-1 rounded">
-                        <span className="font-medium">Answer:</span> {quizState.answers[question.id] || "Not answered"}
+                      <p className={`text-xs px-2 py-1 rounded ${quizState.answers[question.id] === question.correctAnswer ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
+                        <span className="font-medium">Your Answer:</span> {quizState.answers[question.id] || "Not answered"}
                       </p>
+                        {question.correctAnswer && quizState.answers[question.id] !== question.correctAnswer && (
+                          <p className={`text-xs px-2 py-1 rounded ${quizState.answers[question.id] === question.correctAnswer ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
+                            <><span className="font-medium">Correct:</span> {question.correctAnswer}</>
+                          </p>
+                        )}
                     </div>
                   ))}
                 </div>
@@ -121,7 +171,7 @@ export function Quiz({
 
             <Button onClick={resetQuiz} className="w-full sm:w-auto" size="lg">
               <RotateCcw className="w-4 h-4 mr-2" />
-              Start New Quiz
+              Start New Practice
             </Button>
           </CardContent>
         </Card>
@@ -175,7 +225,7 @@ export function Quiz({
               question={currentQuestion}
               selectedAnswer={currentAnswer}
               onSelectAnswer={selectAnswer}
-              correctAnswer={currentAnswer}
+              correctAnswer={currentQuestion.correctAnswer}
               questionNumber={quizState.currentQuestionIndex + 1}
               totalQuestions={questions.length}
               isShuffled={isShuffled}
