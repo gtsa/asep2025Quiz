@@ -9,7 +9,15 @@ import { useQuiz } from "@/hooks/use-quiz"
 import { ChevronLeft, ChevronRight, RotateCcw, CheckCircle, Loader2 } from "lucide-react"
 import { motion, AnimatePresence } from 'framer-motion';
 
-export function Quiz({ questionCount }: { questionCount: number | "max" }) {
+export function Quiz({
+  questionCount,
+  isShuffled,
+  setIsShuffled
+}: {
+  questionCount: number | "max"
+  isShuffled: boolean
+  setIsShuffled: (value: boolean) => void
+}){
 
   const {
     questions,
@@ -27,10 +35,10 @@ export function Quiz({ questionCount }: { questionCount: number | "max" }) {
   } = useQuiz()
 
   useEffect(() => {
-  if (questionCount !== undefined && questionCount !== null) {
-    fetchQuestions(questionCount)
-  }
-}, [questionCount])
+    if (questionCount !== undefined && questionCount !== null) {
+      fetchQuestions(questionCount)
+    }
+  }, [questionCount])
 
   if (loading) {
     return (
@@ -138,6 +146,14 @@ export function Quiz({ questionCount }: { questionCount: number | "max" }) {
       {/* Progress Section */}
       <div className="w-full">
         <div className="flex justify-between items-center mb-3">
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={isShuffled}
+              onChange={(e) => setIsShuffled(e.target.checked)}
+            />
+            <span className="text-sm text-gray-600">Shuffle</span>
+          </div>
           <span className="text-sm font-medium text-muted-foreground">
             {Object.keys(quizState.answers).length} of {questions.length} answered
           </span>
@@ -155,13 +171,14 @@ export function Quiz({ questionCount }: { questionCount: number | "max" }) {
           exit={{ opacity: 0, x: -100 }}
           transition={{ duration: 0.4 }}
         >
-          <QuestionCard
+            <QuestionCard
               question={currentQuestion}
               selectedAnswer={currentAnswer}
               onSelectAnswer={selectAnswer}
               correctAnswer={currentAnswer}
               questionNumber={quizState.currentQuestionIndex + 1}
               totalQuestions={questions.length}
+              isShuffled={isShuffled}
             />
         </motion.div>
       </AnimatePresence>
