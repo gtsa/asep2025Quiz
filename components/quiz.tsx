@@ -7,6 +7,7 @@ import { QuestionCard } from "./question-card"
 import { ProgressBar } from "./progress-bar"
 import { useQuiz } from "@/hooks/use-quiz"
 import { ChevronLeft, ChevronRight, RotateCcw, CheckCircle, Loader2 } from "lucide-react"
+import { motion, AnimatePresence } from 'framer-motion';
 
 export function Quiz({ questionCount }: { questionCount: number | "max" }) {
 
@@ -146,15 +147,24 @@ export function Quiz({ questionCount }: { questionCount: number | "max" }) {
       </div>
 
       {/* Question Card */}
-      <QuestionCard
-        question={currentQuestion}
-        selectedAnswer={currentAnswer}
-        onSelectAnswer={selectAnswer}
-        correctAnswer={currentAnswer}
-        questionNumber={quizState.currentQuestionIndex + 1}
-        totalQuestions={questions.length}
-      />
-
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={quizState.currentQuestionIndex}
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -100 }}
+          transition={{ duration: 0.4 }}
+        >
+          <QuestionCard
+              question={currentQuestion}
+              selectedAnswer={currentAnswer}
+              onSelectAnswer={selectAnswer}
+              correctAnswer={currentAnswer}
+              questionNumber={quizState.currentQuestionIndex + 1}
+              totalQuestions={questions.length}
+            />
+        </motion.div>
+      </AnimatePresence>
       {/* Navigation */}
       <div className="flex flex-col sm:flex-row gap-3 sm:justify-between sm:items-center pt-4">
         <Button
