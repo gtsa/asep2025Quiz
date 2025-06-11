@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { QuestionCard } from "./question-card"
@@ -7,9 +8,11 @@ import { ProgressBar } from "./progress-bar"
 import { useQuiz } from "@/hooks/use-quiz"
 import { ChevronLeft, ChevronRight, RotateCcw, CheckCircle, Loader2 } from "lucide-react"
 
-export function Quiz() {
+export function Quiz({ questionCount }: { questionCount: number | "max" }) {
+
   const {
     questions,
+    fetchQuestions,
     quizState,
     currentQuestion,
     currentAnswer,
@@ -21,6 +24,12 @@ export function Quiz() {
     previousQuestion,
     resetQuiz,
   } = useQuiz()
+
+  useEffect(() => {
+  if (questionCount !== undefined && questionCount !== null) {
+    fetchQuestions(questionCount)
+  }
+}, [questionCount])
 
   if (loading) {
     return (

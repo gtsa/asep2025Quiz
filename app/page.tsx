@@ -1,6 +1,13 @@
+"use client"
+
+import { useState } from "react"
 import { Quiz } from "@/components/quiz"
+import { QuizStartMenu } from "@/components/quizStartMenu"
 
 export default function Home() {
+  const [questionCount, setQuestionCount] = useState<number | "max" | null>(null)
+
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
       {/* Header */}
@@ -15,7 +22,11 @@ export default function Home() {
 
       {/* Main Content */}
       <div className="container mx-auto py-6 sm:py-8">
-        <Quiz />
+        {questionCount === null ? (
+          <QuizStartMenu onStart={setQuestionCount} />
+        ) : (
+          <Quiz questionCount={questionCount} />
+        )}
       </div>
 
       {/* Footer */}

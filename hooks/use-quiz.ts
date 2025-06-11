@@ -14,14 +14,10 @@ export function useQuiz() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    fetchQuestions()
-  }, [])
-
-  const fetchQuestions = async () => {
+  const fetchQuestions = async (limit?: number) => {
     try {
       setLoading(true)
-      const response = await fetch("/api/questions")
+      const response = await fetch(`/api/questions?limit=${limit}`)
       const data = await response.json()
 
       if (!response.ok) {
