@@ -1,13 +1,13 @@
 "use client"
 
-import { useEffect } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { QuestionCard } from "./question-card"
 import { ProgressBar } from "./progress-bar"
 import { useQuiz } from "@/hooks/use-quiz"
-import { ChevronLeft, ChevronRight, RotateCcw, CheckCircle, Loader2 } from "lucide-react"
-import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, ChevronRight, RotateCcw, Loader2 } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
 
 export function Quiz({
   questionCount,
@@ -17,8 +17,8 @@ export function Quiz({
   questionCount: number | "max"
   isShuffled: boolean
   setIsShuffled: (value: boolean) => void
-}){
-
+}) {
+  const [activeTab, setActiveTab] = useState<"all" | "wrong">("all")
   const {
     questions,
     fetchQuestions,
@@ -84,52 +84,53 @@ export function Quiz({
   }
 
   if (quizState.isCompleted) {
-  const answeredQuestions = Object.keys(quizState.answers).length
-  const percentage = Math.round((quizState.score / questions.length) * 100)
-  const color = percentage >= 75 ? "green" : percentage >= 50 ? "yellow" : "red"
+    const percentage = Math.round((quizState.score / questions.length) * 100)
+    const color = percentage >= 75 ? "green" : percentage >= 50 ? "yellow" : "red"
 
-  const colorMap = {
-    green: {
-      bg: "bg-green-100",
-      text: "text-green-700",
-      border: "border-green-600",
-      softBg: "bg-green-50",
-      softText: "text-green-800",
-      softTextAlt: "text-green-600"
-    },
-    yellow: {
-      bg: "bg-yellow-100",
-      text: "text-yellow-700",
-      border: "border-yellow-600",
-      softBg: "bg-yellow-50",
-      softText: "text-yellow-800",
-      softTextAlt: "text-yellow-600"
-    },
-    red: {
-      bg: "bg-red-100",
-      text: "text-red-700",
-      border: "border-red-600",
-      softBg: "bg-red-50",
-      softText: "text-red-800",
-      softTextAlt: "text-red-600"
+    const colorMap = {
+      green: {
+        bg: "bg-green-100",
+        text: "text-green-700",
+        border: "border-green-600",
+        softBg: "bg-green-50",
+        softText: "text-green-800",
+        softTextAlt: "text-green-600",
+      },
+      yellow: {
+        bg: "bg-yellow-100",
+        text: "text-yellow-700",
+        border: "border-yellow-600",
+        softBg: "bg-yellow-50",
+        softText: "text-yellow-800",
+        softTextAlt: "text-yellow-600",
+      },
+      red: {
+        bg: "bg-red-100",
+        text: "text-red-700",
+        border: "border-red-600",
+        softBg: "bg-red-50",
+        softText: "text-red-800",
+        softTextAlt: "text-red-600",
+      },
     }
-  }
 
-  const styles = colorMap[color]
+    const styles = colorMap[color]
 
     return (
       <div className="px-4">
         <Card className="w-full mx-auto">
           <CardHeader className="text-center pb-4">
-                  <div className={`w-24 h-24 rounded-full mx-auto mb-2 flex items-center justify-center text-4xl font-extrabold border-4 ${styles.bg} ${styles.text} ${styles.border}`}>
-                    {percentage}%
-                  </div>
-                  <CardTitle className={`text-lg sm:text-xl font-semibold ${styles.text}`}>
-                    Quiz Completed{percentage === 100 ? " 🎉" : ""}
-                  </CardTitle>
-                  {percentage < 50 && (
-                    <p className="text-sm font-medium text-red-600 mt-2">Try harder. You can do it!</p>
-                  )}
+            <div
+              className={`w-24 h-24 rounded-full mx-auto mb-2 flex items-center justify-center text-4xl font-extrabold border-4 ${styles.bg} ${styles.text} ${styles.border}`}
+            >
+              {percentage}%
+            </div>
+            <CardTitle className={`text-lg sm:text-xl font-semibold ${styles.text}`}>
+              Quiz Completed{percentage === 100 ? " 🎉" : ""}
+            </CardTitle>
+            {percentage < 50 && (
+              <p className="text-sm font-medium text-red-600 mt-2">Try harder. You can do it!</p>
+            )}
           </CardHeader>
           <CardContent className="text-center space-y-6">
             <div className={`rounded-lg p-4 ${styles.softBg}`}>
@@ -146,26 +147,51 @@ export function Quiz({
                   : "Review the material and try again!"}
               </p>
             </div>
+
             <div className="space-y-3">
-              <h3 className="font-semibold text-lg">Your Answers Summary:</h3>
+              <h3 className="font-semibold text-lg">Your Answers Summary</h3>
+              <div className="flex gap-2 justify-center">
+                <Button variant={activeTab === "all" ? "default" : "outline"} onClick={() => setActiveTab("all")} size="sm">
+                  All
+                </Button>
+                <Button variant={activeTab === "wrong" ? "default" : "outline"} onClick={() => setActiveTab("wrong")} size="sm">
+                  Incorrect Only
+                </Button>
+              </div>
               <div className="bg-gray-50 rounded-lg p-4 max-h-80 overflow-y-auto">
-                <div className="space-y-3 text-left">
-                  {questions.map((question, index) => (
-                    <div key={question.id} className="border-b border-gray-200 pb-3 last:border-b-0">
-                      <p className="font-medium text-sm mb-1">
-                        Q{index + 1}: {question.question}
-                      </p>
-                      <p className={`text-xs px-2 py-1 rounded ${quizState.answers[question.id] === question.correctAnswer ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
-                        <span className="font-medium">Your Answer:</span> {quizState.answers[question.id] || "Not answered"}
-                      </p>
-                        {question.correctAnswer && quizState.answers[question.id] !== question.correctAnswer && (
+                {questions.every(q => activeTab === "wrong" ? quizState.answers[q.id] === q.correctAnswer : false) ? (
+                  <p className="text-sm text-muted-foreground text-center">No incorrect answers 🎉</p>
+                ) : (
+                  <div className="space-y-3 text-left">
+                    {questions.map((question, index) => {
+                      const isWrong = quizState.answers[question.id] !== question.correctAnswer
+                      const show = activeTab === "all" || (activeTab === "wrong" && isWrong)
+                      if (!show) return null
+                      return (
+                        <div key={question.id} className="border-b border-gray-200 pb-3 last:border-b-0">
+                          <div className="flex justify-between items-start mb-1">
+                            <p className="font-medium text-sm">
+                              Q{index + 1}: {question.question}
+                            </p>
+                            {question.category && (
+                              <span className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full whitespace-nowrap ml-4 shrink-0">
+                                {question.category}
+                              </span>
+                            )}
+                          </div>
                           <p className={`text-xs px-2 py-1 rounded ${quizState.answers[question.id] === question.correctAnswer ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
-                            <><span className="font-medium">Correct:</span> {question.correctAnswer}</>
+                            <span className="font-medium">Your Answer:</span> {quizState.answers[question.id] || "Not answered"}
                           </p>
-                        )}
-                    </div>
-                  ))}
-                </div>
+                          {isWrong && (
+                            <p className="text-xs px-2 py-1 rounded bg-green-100 text-green-800">
+                              <span className="font-medium">Correct:</span> {question.correctAnswer}
+                            </p>
+                          )}
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -193,7 +219,6 @@ export function Quiz({
 
   return (
     <div className="space-y-6 px-4">
-      {/* Progress Section */}
       <div className="w-full">
         <div className="flex justify-between items-center mb-3">
           <div className="flex items-center gap-2">
@@ -202,17 +227,18 @@ export function Quiz({
               checked={isShuffled}
               onChange={(e) => setIsShuffled(e.target.checked)}
             />
-            <span className="text-sm text-gray-600">Shuffle</span>
+            <span className="text-sm text-gray-600">Shuffled Answers</span>
           </div>
           <span className="text-sm font-medium text-muted-foreground">
             {Object.keys(quizState.answers).length} of {questions.length} answered
           </span>
-          <span className="text-sm font-medium text-blue-600">Question {quizState.currentQuestionIndex + 1}</span>
+          <span className="text-sm font-medium text-blue-600">
+            Question {quizState.currentQuestionIndex + 1}
+          </span>
         </div>
         <ProgressBar progress={progress} />
       </div>
 
-      {/* Question Card */}
       <AnimatePresence mode="wait">
         <motion.div
           key={quizState.currentQuestionIndex}
@@ -221,18 +247,18 @@ export function Quiz({
           exit={{ opacity: 0, x: -100 }}
           transition={{ duration: 0.4 }}
         >
-            <QuestionCard
-              question={currentQuestion}
-              selectedAnswer={currentAnswer}
-              onSelectAnswer={selectAnswer}
-              correctAnswer={currentQuestion.correctAnswer}
-              questionNumber={quizState.currentQuestionIndex + 1}
-              totalQuestions={questions.length}
-              isShuffled={isShuffled}
-            />
+          <QuestionCard
+            question={currentQuestion}
+            selectedAnswer={currentAnswer}
+            onSelectAnswer={selectAnswer}
+            correctAnswer={currentQuestion.correctAnswer}
+            questionNumber={quizState.currentQuestionIndex + 1}
+            totalQuestions={questions.length}
+            isShuffled={isShuffled}
+          />
         </motion.div>
       </AnimatePresence>
-      {/* Navigation */}
+
       <div className="flex flex-col sm:flex-row gap-3 sm:justify-between sm:items-center pt-4">
         <Button
           variant="outline"
@@ -255,12 +281,13 @@ export function Quiz({
           }`}
           size="lg"
         >
-          {quizState.currentQuestionIndex === questions.length - 1 ? "Complete Quiz" : "Next Question"}
+          {quizState.currentQuestionIndex === questions.length - 1
+            ? "Complete Quiz"
+            : "Next Question"}
           <ChevronRight className="w-4 h-4 ml-2" />
         </Button>
       </div>
 
-      {/* Helper Text */}
       {!currentAnswer && (
         <div className="text-center">
           <p className="text-sm text-muted-foreground bg-yellow-50 border border-yellow-200 rounded-lg p-3">
