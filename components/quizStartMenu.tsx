@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { CategoryBadges } from "@/components/categoryBadges"
@@ -8,24 +8,28 @@ import { CATEGORIES } from "@/lib/constants"
 
 type QuizStartMenuProps = {
   onStart: (questionCount: number | "max", selectedCategories: string[]) => void
+  selectedCategories: string[]
+  setSelectedCategories: (categories: string[]) => void
   isShuffled: boolean
   setIsShuffled: (value: boolean) => void
 }
 
-export const QuizStartMenu: React.FC<QuizStartMenuProps> = ({ onStart, isShuffled, setIsShuffled }) => {
+export const QuizStartMenu: React.FC<QuizStartMenuProps> = ({
+    onStart,
+    isShuffled,
+    setIsShuffled,
+    selectedCategories,
+    setSelectedCategories
+}) => {
   const [customCount, setCustomCount] = useState("")
-  const [selectedCategories, setSelectedCategories] = useState(CATEGORIES)
 
   const handleCategoryToggle = (category: string) => {
-    setSelectedCategories(prev => {
-        const updated = prev.includes(category)
-        ? prev.filter(c => c !== category)
-        : [...prev, category]
-        console.log("Updated quizStartMenu:", updated)
-        return updated
-    })
-    }
-
+  setSelectedCategories(prev =>
+    prev.includes(category)
+      ? prev.filter(c => c !== category)
+      : [...prev, category]
+  )
+}
 
   const handleCustomStart = () => {
     const parsed = parseInt(customCount, 10)

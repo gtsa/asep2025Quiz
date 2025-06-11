@@ -15,7 +15,7 @@ const config: Config = {
     "bg-purple-100", "text-purple-800", "border-purple-200",
     "bg-pink-100", "text-pink-800", "border-pink-200",
     "bg-orange-100", "text-orange-800", "border-orange-200",
-    "bg-gray-100", "text-gray-800", "border-gray-200",
+    "bg-cyan-100", "text-cyan-800", "border-cyan-200",
     "bg-slate-100", "text-slate-800"
   ],
   theme: {

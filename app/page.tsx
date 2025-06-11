@@ -1,13 +1,39 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Quiz } from "@/components/quiz"
 import { QuizStartMenu } from "@/components/quizStartMenu"
+import { CATEGORIES } from "@/lib/constants"
 
 export default function Home() {
   const [questionCount, setQuestionCount] = useState<number | "max" | null>(null)
-  const [isShuffled, setIsShuffled] = useState(true)
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const [isShuffled, setIsShuffled] = useState(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("isShuffled")
+      return stored === "true"
+    }
+    return false
+  })
+  useEffect(() => {
+    localStorage.setItem("isShuffled", String(isShuffled))
+  }, [isShuffled])
+  
+  const [selectedCategories, setSelectedCategories] = useState<string[] | null>(null)
+
+  // Load from localStorage (only on client)
+  useEffect(() => {
+    const stored = localStorage.getItem("selectedCategories")
+    setSelectedCategories(stored ? JSON.parse(stored) : CATEGORIES)
+  }, [])
+
+  // Sync to localStorage on change
+  useEffect(() => {
+    if (selectedCategories) {
+      localStorage.setItem("selectedCategories", JSON.stringify(selectedCategories))
+    }
+  }, [selectedCategories])
+
+  if (selectedCategories === null) return null
 
   return (
     <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50">
@@ -27,13 +53,11 @@ export default function Home() {
 
       {/* Main Content */}
       <div className="container mx-auto py-0 sm:py-8">
-        {questionCount === null ? (
+        {questionCount === null && selectedCategories !== null ? (
           <QuizStartMenu
-            onStart={(count, categories) => {
-              console.log("📦 Received categories in page.tsx:", categories)
-              setQuestionCount(count)
-              setSelectedCategories(categories)
-            }}
+            onStart={(count) => setQuestionCount(count)}
+            selectedCategories={selectedCategories}
+            setSelectedCategories={setSelectedCategories}
             isShuffled={isShuffled}
             setIsShuffled={setIsShuffled}
           />
