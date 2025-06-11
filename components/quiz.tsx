@@ -130,7 +130,7 @@ export function Quiz({
               {percentage}%
             </div>
             <CardTitle className={`text-lg sm:text-xl font-semibold ${styles.text}`}>
-              Quiz Completed{percentage === 100 ? " 🎉" : ""}
+              Your Success Rate{percentage === 100 ? " 🎉" : ""}
             </CardTitle>
             {percentage < 50 && (
               <p className="text-sm font-medium text-red-600 mt-2">Try harder. You can do it!</p>
