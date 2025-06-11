@@ -145,7 +145,8 @@ export function useQuiz() {
 
   const currentQuestion = questions[quizState.currentQuestionIndex]
   const currentAnswer = currentQuestion ? quizState.answers[currentQuestion.id] : undefined
-  const progress = questions.length > 0 ? ((quizState.currentQuestionIndex + 1) / questions.length) * 100 : 0
+  const answeredCount = Object.keys(quizState.answers).length
+  const progress = questions.length > 0 ? (answeredCount / questions.length) * 100 : 0
 
   return {
     questions,
