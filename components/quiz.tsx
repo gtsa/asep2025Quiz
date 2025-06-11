@@ -141,6 +141,7 @@ export function Quiz() {
         question={currentQuestion}
         selectedAnswer={currentAnswer}
         onSelectAnswer={selectAnswer}
+        correctAnswer={currentAnswer}
         questionNumber={quizState.currentQuestionIndex + 1}
         totalQuestions={questions.length}
       />

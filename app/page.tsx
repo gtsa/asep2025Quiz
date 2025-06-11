@@ -7,7 +7,7 @@ export default function Home() {
       <div className="bg-white shadow-sm border-b sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4">
           <div className="text-center">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-1">ASEP Practice Quiz</h1>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-1">ΑΣΕΠ Practice Quiz</h1>
             <p className="text-sm sm:text-base text-gray-600">Test your knowledge with our interactive questionnaire</p>
           </div>
         </div>
