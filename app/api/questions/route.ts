@@ -7,6 +7,7 @@ export async function GET(request: Request) {
   try {
     const url = new URL(request.url)
     const limitParam = url.searchParams.get("limit")
+    const categoryParams = url.searchParams.getAll("categories")
 
     const filePath = path.join(process.cwd(), "public", "data", "data_asep.csv")
     const csvBuffer = await fs.readFile(filePath)
@@ -15,13 +16,20 @@ export async function GET(request: Request) {
     const csvRows = parseCSV(csvText)
     const allQuestions = convertCSVToQuestions(csvRows)
 
-    let numberOfQuestions: number
-    if (limitParam === "max") {
-      numberOfQuestions = allQuestions.length
-    } else {
-      numberOfQuestions = limitParam ? parseInt(limitParam, 10) : allQuestions.length
-    }
-    const shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
+    // FILTER by selected categories if provided
+    const filteredQuestions = categoryParams.length > 0
+      ? allQuestions.filter(q => q.category && categoryParams.includes(q.category))
+      : allQuestions
+
+    // Shuffle and apply limit
+    const numberOfQuestions =
+      limitParam === "max"
+        ? filteredQuestions.length
+        : limitParam
+        ? parseInt(limitParam, 10)
+        : filteredQuestions.length
+
+    const shuffled = [...filteredQuestions].sort(() => Math.random() - 0.5);
     const questions = shuffled.slice(0, numberOfQuestions);
 
     return NextResponse.json({

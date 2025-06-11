@@ -13,11 +13,13 @@ import { categoryColorMap, defaultCategoryColor } from "@/lib/categoryColors"
 export function Quiz({
   questionCount,
   isShuffled,
-  setIsShuffled
+  setIsShuffled,
+  selectedCategories
 }: {
   questionCount: number | "max"
   isShuffled: boolean
   setIsShuffled: (value: boolean) => void
+  selectedCategories: string[]
 }) {
   const [activeTab, setActiveTab] = useState<"all" | "wrong">("all")
   const {
@@ -35,11 +37,12 @@ export function Quiz({
     resetQuiz,
   } = useQuiz()
 
+
   useEffect(() => {
     if (questionCount !== undefined && questionCount !== null) {
-      fetchQuestions(questionCount)
+      fetchQuestions(questionCount, selectedCategories)
     }
-  }, [questionCount])
+  }, [questionCount, selectedCategories])
 
   if (loading) {
     return (
