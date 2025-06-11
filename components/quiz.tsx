@@ -130,41 +130,41 @@ export function Quiz({
               {percentage}%
             </div>
             <CardTitle className={`text-lg sm:text-xl font-semibold ${styles.text}`}>
-              Your Success Rate{percentage === 100 ? " 🎉" : ""}
+              Ποσοστό Επιτυχίας{percentage === 100 ? " 🎉" : ""}
             </CardTitle>
             {percentage < 50 && (
-              <p className="text-sm font-medium text-red-600 mt-2">Try harder. You can do it!</p>
+              <p className="text-sm font-medium text-red-600 mt-2">Προσπάθησε περισσότερο — μπορείς να τα καταφέρεις!</p>
             )}
           </CardHeader>
           <CardContent className="text-center space-y-6">
             <div className={`rounded-lg p-4 ${styles.softBg}`}>
               <p className={`text-lg font-semibold ${styles.softText}`}>
-                You answered correctly {quizState.score} out of {questions.length} questions
+                Απάντησες σωστά {quizState.score} στις {questions.length} ερωτήσεις
               </p>
               <p className={`text-sm mt-1 ${styles.softTextAlt}`}>
                 {percentage === 100
-                  ? "Perfect score! 🎯"
+                  ? "Τέλεια επίδοση! 🎯"
                   : percentage >= 75
-                  ? "Great job completing the practice quiz!"
+                  ? "Σχεδόν τέλεια! Μπράβο σου!"
                   : percentage >= 50
-                  ? "Keep it up, you're getting there!"
-                  : "Review the material and try again!"}
+                  ? "Συνέχισε έτσι, είσαι σε καλό δρόμο!"
+                  : "Επανάληψη και προσπάθησε ξανά!"}
               </p>
             </div>
 
             <div className="space-y-3">
-              <h3 className="font-semibold text-lg">Your Answers Summary</h3>
+              <h3 className="font-semibold text-lg">Οι απαντήσεις σου</h3>
               <div className="flex gap-2 justify-center">
                 <Button variant={activeTab === "all" ? "default" : "outline"} onClick={() => setActiveTab("all")} size="sm">
-                  All
+                  Όλες
                 </Button>
                 <Button variant={activeTab === "wrong" ? "default" : "outline"} onClick={() => setActiveTab("wrong")} size="sm">
-                  Incorrect Only
+                  Λάθος Απαντήσεις
                 </Button>
               </div>
               <div className="bg-gray-50 rounded-lg p-4 max-h-80 overflow-y-auto">
                 {questions.every(q => activeTab === "wrong" ? quizState.answers[q.id] === q.correctAnswer : false) ? (
-                  <p className="text-sm text-muted-foreground text-center">No incorrect answers 🎉</p>
+                  <p className="text-sm text-muted-foreground text-center">Καμμία λάθος απάντηση 🎉</p>
                 ) : (
                   <div className="space-y-3 text-left">
                     {questions.map((question, index) => {
@@ -187,11 +187,11 @@ export function Quiz({
                             )}
                           </div>
                           <p className={`text-xs px-2 py-1 rounded ${quizState.answers[question.id] === question.correctAnswer ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
-                            <span className="font-medium">Your Answer:</span> {quizState.answers[question.id] || "Not answered"}
+                            <span className="font-medium">Απάντησή σου:</span> {quizState.answers[question.id] || "Not answered"}
                           </p>
                           {isWrong && (
                             <p className="text-xs px-2 py-1 rounded bg-green-100 text-green-800">
-                              <span className="font-medium">Correct:</span> {question.correctAnswer}
+                              <span className="font-medium">Σωστό:</span> {question.correctAnswer}
                             </p>
                           )}
                         </div>
@@ -204,7 +204,7 @@ export function Quiz({
 
             <Button onClick={resetQuiz} className="w-full sm:w-auto" size="lg">
               <RotateCcw className="w-4 h-4 mr-2" />
-              Start New Practice
+              Δοκίμασε ξανά
             </Button>
           </CardContent>
         </Card>
@@ -217,7 +217,7 @@ export function Quiz({
       <div className="px-4">
         <Card className="w-full mx-auto">
           <CardContent className="pt-6 text-center">
-            <p className="text-muted-foreground">Question not found.</p>
+            <p className="text-muted-foreground">Δεν βρέθηκε η ερώτηση.</p>
           </CardContent>
         </Card>
       </div>
@@ -234,13 +234,13 @@ export function Quiz({
               checked={isShuffled}
               onChange={(e) => setIsShuffled(e.target.checked)}
             />
-            <span className="text-sm text-gray-600">Shuffled Answers</span>
+            <span className="text-sm text-gray-600">Ανακατεμένες Απαντήσεις</span>
           </div>
           <span className="text-sm font-medium text-muted-foreground">
-            {Object.keys(quizState.answers).length} of {questions.length} answered
+            {Object.keys(quizState.answers).length} από {questions.length} απαντήθηκαν
           </span>
           <span className="text-sm font-medium text-blue-600">
-            Question {quizState.currentQuestionIndex + 1}
+            Ερώτηση {quizState.currentQuestionIndex + 1}
           </span>
         </div>
         <ProgressBar progress={progress} />
@@ -275,7 +275,7 @@ export function Quiz({
           size="lg"
         >
           <ChevronLeft className="w-4 h-4 mr-2" />
-          Previous
+          Προηγούμενη
         </Button>
 
         <Button
@@ -289,8 +289,8 @@ export function Quiz({
           size="lg"
         >
           {quizState.currentQuestionIndex === questions.length - 1
-            ? "Complete Quiz"
-            : "Next Question"}
+            ? "Ολοκλήρωση"
+            : "Επόμενη"}
           <ChevronRight className="w-4 h-4 ml-2" />
         </Button>
       </div>
@@ -298,7 +298,7 @@ export function Quiz({
       {!currentAnswer && (
         <div className="text-center">
           <p className="text-sm text-muted-foreground bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-            👆 Please select an answer to continue
+            👆 Διάλεξε μια απάντηση για να συνεχίσεις
           </p>
         </div>
       )}

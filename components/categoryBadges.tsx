@@ -21,7 +21,7 @@ interface Props {
 export const CategoryBadges: React.FC<Props> = ({ selected, onToggle }) => {
   return (
     <div className="flex flex-wrap gap-2 justify-center">
-      <p className="text-muted-foreground text-center">Select the categories you want questions from:</p>
+      <p className="text-muted-foreground text-center">Διάλεξε κατηγορίες για εξάσκηση: </p>
       {CATEGORIES.map((cat) => {
         const isActive = selected.includes(cat)
         const color = categoryColorMap[cat] ?? defaultCategoryColor
