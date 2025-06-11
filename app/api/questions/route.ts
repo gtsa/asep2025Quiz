@@ -10,7 +10,11 @@ export async function GET() {
     const csvText = csvBuffer.toString("utf-8")
 
     const csvRows = parseCSV(csvText)
-    const questions = convertCSVToQuestions(csvRows)
+    const allQuestions = convertCSVToQuestions(csvRows)
+
+    const numberOfQuestions = 400;
+    const shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
+    const questions = shuffled.slice(0, numberOfQuestions);
 
     return NextResponse.json({
       questions,
