@@ -8,6 +8,7 @@ import { ProgressBar } from "./progress-bar"
 import { useQuiz } from "@/hooks/use-quiz"
 import { ChevronLeft, ChevronRight, RotateCcw, Loader2 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
+import { categoryColorMap, defaultCategoryColor } from "@/lib/categoryColors"
 
 export function Quiz({
   questionCount,
@@ -166,6 +167,7 @@ export function Quiz({
                     {questions.map((question, index) => {
                       const isWrong = quizState.answers[question.id] !== question.correctAnswer
                       const show = activeTab === "all" || (activeTab === "wrong" && isWrong)
+                      const categoryStyle = categoryColorMap[question.category ?? ""] ?? defaultCategoryColor
                       if (!show) return null
                       return (
                         <div key={question.id} className="border-b border-gray-200 pb-3 last:border-b-0">
@@ -174,8 +176,10 @@ export function Quiz({
                               Q{index + 1}: {question.question}
                             </p>
                             {question.category && (
-                              <span className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full whitespace-nowrap ml-4 shrink-0">
-                                {question.category}
+                              <span
+                                className={`text-xs px-2 py-0.5 rounded-full whitespace-nowrap ml-4 shrink-0 ${categoryStyle.bg} ${categoryStyle.text}`}
+                              >
+                                {question.category} ({question.indexInCategory})
                               </span>
                             )}
                           </div>
