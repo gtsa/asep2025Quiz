@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import type { Question } from "@/lib/types"
@@ -10,6 +11,7 @@ interface QuestionCardProps {
   onSelectAnswer: (answer: string) => void
   questionNumber: number
   totalQuestions: number
+  isShuffled: boolean
 }
 
 export function QuestionCard({
@@ -18,7 +20,18 @@ export function QuestionCard({
   onSelectAnswer,
   questionNumber,
   totalQuestions,
+  isShuffled
 }: QuestionCardProps) {
+  const [shuffledOptions, setShuffledOptions] = useState<[string, string][]>([])
+
+  useEffect(() => {
+    const entries = Object.entries(question.options)
+    const shuffled = isShuffled
+      ? [...entries].sort(() => Math.random() - 0.5)
+      : entries
+    setShuffledOptions(shuffled)
+  }, [question, isShuffled])
+
   return (
     <Card className="w-full mx-auto shadow-lg">
       <CardHeader className="pb-4">
@@ -36,9 +49,10 @@ export function QuestionCard({
           {question.question}
         </CardTitle>
       </CardHeader>
+      
       <CardContent className="pt-0">
         <div className="space-y-3">
-          {Object.entries(question.options).map(([key, option]) => {
+          {shuffledOptions.map(([key, option], index) => {
             const isSelected = selectedAnswer === key
             const isCorrect = question.correctAnswer === key
             const showAsCorrect = selectedAnswer && isCorrect
@@ -57,7 +71,9 @@ export function QuestionCard({
                   ${isSelected && !showAsCorrect && !showAsWrong ? "border-blue-600" : ""}
                 `}
               >
-                <span className="font-bold mr-2 uppercase">{key}.</span>
+                <span className="font-bold mr-2 lowercase">
+                  {["α", "β", "γ", "δ"][index]}.
+                </span>
                 {option}
               </Button>
             )

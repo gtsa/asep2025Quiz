@@ -6,7 +6,7 @@ import { QuizStartMenu } from "@/components/quizStartMenu"
 
 export default function Home() {
   const [questionCount, setQuestionCount] = useState<number | "max" | null>(null)
-
+  const [isShuffled, setIsShuffled] = useState(true)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
@@ -23,9 +23,17 @@ export default function Home() {
       {/* Main Content */}
       <div className="container mx-auto py-6 sm:py-8">
         {questionCount === null ? (
-          <QuizStartMenu onStart={setQuestionCount} />
+          <QuizStartMenu
+            onStart={setQuestionCount}
+            isShuffled={isShuffled}
+            setIsShuffled={setIsShuffled}
+          />
         ) : (
-          <Quiz questionCount={questionCount} />
+          <Quiz
+            questionCount={questionCount}
+            isShuffled={isShuffled}
+            setIsShuffled={setIsShuffled}
+          />
         )}
       </div>
 
