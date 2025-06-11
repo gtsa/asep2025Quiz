@@ -66,7 +66,11 @@ export function convertCSVToQuestions(csvRows: CSVRow[]): Question[] {
         γ: row.c?.trim(),
         δ: row.d?.trim(),
       },
-      correctAnswer: correctLetter,
+      correctAnswer: row[correctLetter === "α" ? "a" :
+                   correctLetter === "β" ? "b" :
+                   correctLetter === "γ" ? "c" :
+                   correctLetter === "δ" ? "d" : "a"]?.trim(),
+      correctAnswerKey: correctLetter,
       category: row.category?.trim() || "Γενικά",
       indexInCategory: row["#"]
     }

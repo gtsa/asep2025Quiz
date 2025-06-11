@@ -33,18 +33,21 @@ export function useQuiz() {
     }
   }
 
-  const selectAnswer = (answer: string) => {
+  const selectAnswer = (selectedLetter: string) => {
     const currentQuestion = questions[quizState.currentQuestionIndex]
     if (!currentQuestion) return
+
+    const actualAnswer = currentQuestion.options[selectedLetter as keyof typeof currentQuestion.options]
 
     setQuizState((prev) => ({
       ...prev,
       answers: {
         ...prev.answers,
-        [currentQuestion.id]: answer,
+        [currentQuestion.id]: actualAnswer,
       },
     }))
   }
+
 
   const nextQuestion = () => {
     if (quizState.currentQuestionIndex < questions.length - 1) {
@@ -67,11 +70,21 @@ export function useQuiz() {
   }
 
   const completeQuiz = () => {
+    const correctCount = questions.reduce((acc, question) => {
+      const userAnswer = quizState.answers[question.id]
+      if (userAnswer && userAnswer === question.correctAnswer) {
+        return acc + 1
+      }
+      return acc
+    }, 0)
+
     setQuizState((prev) => ({
       ...prev,
+      score: correctCount,
       isCompleted: true,
     }))
   }
+
 
   const resetQuiz = () => {
     setQuizState({
