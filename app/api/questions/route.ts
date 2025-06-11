@@ -3,8 +3,11 @@ import { parseCSV, convertCSVToQuestions } from "@/lib/csv-parser"
 import { promises as fs } from "fs"
 import path from "path"
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const url = new URL(request.url)
+    const limitParam = url.searchParams.get("limit")
+
     const filePath = path.join(process.cwd(), "public", "data", "data_asep.csv")
     const csvBuffer = await fs.readFile(filePath)
     const csvText = csvBuffer.toString("utf-8")
@@ -12,7 +15,12 @@ export async function GET() {
     const csvRows = parseCSV(csvText)
     const allQuestions = convertCSVToQuestions(csvRows)
 
-    const numberOfQuestions = 400;
+    let numberOfQuestions: number
+    if (limitParam === "max") {
+      numberOfQuestions = allQuestions.length
+    } else {
+      numberOfQuestions = limitParam ? parseInt(limitParam, 10) : allQuestions.length
+    }
     const shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
     const questions = shuffled.slice(0, numberOfQuestions);
 
