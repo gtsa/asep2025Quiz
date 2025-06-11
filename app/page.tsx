@@ -43,7 +43,7 @@ export default function Home() {
           <div className="container mx-auto px-4 py-4">
             <div className="text-center">
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-1">
-                ΑΣΕΠ 2025 Practice Quiz
+                Εξάσκηση ΑΣΕΠ 2025
               </h1>
             </div>
           </div>
@@ -74,7 +74,7 @@ export default function Home() {
       {/* Footer */}
       <div className="bg-gray-50 border-t mt-12">
         <div className="container mx-auto px-4 py-0 text-center">
-          <p className="text-xs text-gray-500">Swipe or tap to navigate • Optimized for mobile devices</p>
+          <p className="text-xs text-gray-500">Σύρε ή πάτησε για πλοήγηση • 🄯 2025 geotsa</p>
         </div>
       </div>
     </div>

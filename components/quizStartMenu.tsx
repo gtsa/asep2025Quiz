@@ -49,7 +49,7 @@ export const QuizStartMenu: React.FC<QuizStartMenuProps> = ({
       </div>
       {/* Scrollable main content */}
       <div className="flex flex-col items-center px-4 py-6 space-y-8 flex-1 overflow-y-auto">
-        <p className="text-muted-foreground text-center text-sm">Choose how many questions you want to practice with:</p>
+        <p className="text-muted-foreground text-center text-lg">Πόσες ερωτήσεις θέλεις για εξάσκηση;</p>
 
         <label className="text-sm text-gray-600 flex items-center gap-2">
           <input
@@ -57,7 +57,7 @@ export const QuizStartMenu: React.FC<QuizStartMenuProps> = ({
             checked={isShuffled}
             onChange={(e) => setIsShuffled(e.target.checked)}
           />
-          Shuffled Answers
+          Ανακατεμένες Απαντήσεις
         </label>
 
         <div className="flex flex-wrap gap-4 justify-center">
@@ -67,7 +67,7 @@ export const QuizStartMenu: React.FC<QuizStartMenuProps> = ({
               size="lg"
               onClick={() => onStart(count, selectedCategories)}
             >
-              {count} Questions
+              {count} Ερωτήσεις
             </Button>
           ))}
           <Button key="all" size="lg" onClick={() => onStart("max", selectedCategories)}>
@@ -79,13 +79,13 @@ export const QuizStartMenu: React.FC<QuizStartMenuProps> = ({
           <Input
             type="number"
             min={1}
-            placeholder="Enter number"
+            placeholder="Πόσες"
             value={customCount}
             onChange={(e) => setCustomCount(e.target.value)}
-            className="w-32"
+            className="w-32 text-center"
           />
           <Button onClick={handleCustomStart} disabled={!customCount || parseInt(customCount) <= 0}>
-            Start Custom
+            Ερωτήσεις; (Δικό σου Αριθμός)
           </Button>
         </div>
       </div>

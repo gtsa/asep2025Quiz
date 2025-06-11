@@ -13,7 +13,7 @@ export function ProgressBar({ progress, className = "" }: ProgressBarProps) {
         />
       </div>
       <div className="text-center">
-        <span className="text-sm font-medium text-gray-600">{Math.round(progress)}% Complete</span>
+        <span className="text-sm font-medium text-gray-600">Ολοκλήρωση {Math.round(progress)}%</span>
       </div>
     </div>
   )
