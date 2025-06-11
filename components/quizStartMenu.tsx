@@ -32,7 +32,7 @@ export const QuizStartMenu: React.FC<QuizStartMenuProps> = ({ onStart, isShuffle
           checked={isShuffled}
           onChange={(e) => setIsShuffled(e.target.checked)}
         />
-        Shuffle answers
+        Shuffled Answers
       </label>
 
       {/* Predefined Buttons */}

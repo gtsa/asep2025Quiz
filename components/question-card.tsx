@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { categoryColorMap, defaultCategoryColor } from "@/lib/categoryColors"
 import type { Question } from "@/lib/types"
 
 interface QuestionCardProps {
@@ -24,6 +25,8 @@ export function QuestionCard({
 }: QuestionCardProps) {
   const [shuffledOptions, setShuffledOptions] = useState<[string, string][]>([])
 
+  const categoryStyle = categoryColorMap[question.category ?? ""] ?? defaultCategoryColor
+
   useEffect(() => {
     const entries = Object.entries(question.options)
     const shuffled = isShuffled
@@ -40,7 +43,7 @@ export function QuestionCard({
             Question {questionNumber} of {totalQuestions}
           </span>
           {question.category && (
-            <span className="text-xs bg-blue-100 text-blue-800 px-3 py-1 rounded-full w-fit">
+            <span   className={`text-xs px-3 py-1 rounded-full w-fit ${categoryStyle.bg} ${categoryStyle.text}`}>
               {question.category} ({question.indexInCategory})
             </span>
           )}
