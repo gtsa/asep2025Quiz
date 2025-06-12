@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader} from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { categoryColorMap, defaultCategoryColor } from "@/lib/categoryColors"
 import type { Question } from "@/lib/types"
@@ -40,7 +40,7 @@ export function QuestionCard({
       <CardHeader className="pb-4">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-3">
           <span className="text-sm font-medium text-muted-foreground">
-            Question {questionNumber} of {totalQuestions}
+            Ερώτηση {questionNumber} από {totalQuestions}
           </span>
           {question.category && (
             <span   className={`text-xs px-3 py-1 rounded-full w-fit ${categoryStyle.bg} ${categoryStyle.text}`}>
@@ -48,9 +48,9 @@ export function QuestionCard({
             </span>
           )}
         </div>
-        <CardTitle className="text-lg sm:text-xl leading-relaxed text-gray-900">
-          {question.question}
-        </CardTitle>
+
+        <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: question.question }} />
+
       </CardHeader>
       
       <CardContent className="pt-0">
