@@ -49,8 +49,8 @@ export function Quiz({
       <div className="flex items-center justify-center min-h-[60vh] px-4">
         <div className="text-center">
           <Loader2 className="animate-spin h-12 w-12 text-blue-600 mx-auto mb-4" />
-          <p className="text-muted-foreground text-lg">Loading questions...</p>
-          <p className="text-sm text-muted-foreground mt-2">Please wait while we prepare your quiz</p>
+          <p className="text-muted-foreground text-lg">Φόρτωση ερωτήσεων...</p>
+          <p className="text-sm text-muted-foreground mt-2">Παρακαλούμε περιμένετε όσο ετοιμάζουμε το κουίζ σας.</p>
         </div>
       </div>
     )
@@ -62,7 +62,7 @@ export function Quiz({
         <Card className="w-full mx-auto">
           <CardContent className="pt-6 text-center">
             <div className="text-red-500 text-6xl mb-4">⚠️</div>
-            <h3 className="text-lg font-semibold mb-2">Oops! Something went wrong</h3>
+            <h3 className="text-lg font-semibold mb-2">Ουπς! Κάτι πήγε στραβά.</h3>
             <p className="text-red-600 mb-6 text-sm">{error}</p>
             <Button onClick={() => window.location.reload()} className="w-full sm:w-auto" size="lg">
               Try Again
@@ -79,8 +79,8 @@ export function Quiz({
         <Card className="w-full mx-auto">
           <CardContent className="pt-6 text-center">
             <div className="text-gray-400 text-6xl mb-4">📝</div>
-            <p className="text-muted-foreground text-lg">No questions available.</p>
-            <p className="text-sm text-muted-foreground mt-2">Please check back later.</p>
+            <p className="text-muted-foreground text-lg">Δεν υπάρχουν διαθέσιμες ερωτήσεις.</p>
+            <p className="text-sm text-muted-foreground mt-2">Παρακαλούμε ελέγξτε ξανά αργότερα.</p>
           </CardContent>
         </Card>
       </div>
@@ -176,7 +176,8 @@ export function Quiz({
                         <div key={question.id} className="border-b border-gray-200 pb-3 last:border-b-0">
                           <div className="flex justify-between items-start mb-1">
                             <p className="font-medium text-sm">
-                              Q{index + 1}: {question.question}
+                              Q{index + 1}:{' '}                         
+                            <span className="prose max-w-none" dangerouslySetInnerHTML={{ __html: question.question }} />
                             </p>
                             {question.category && (
                               <span

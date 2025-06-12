@@ -71,7 +71,7 @@ export const QuizStartMenu: React.FC<QuizStartMenuProps> = ({
             </Button>
           ))}
           <Button key="all" size="lg" onClick={() => onStart("max", selectedCategories)}>
-            All Questions
+            Όλες
           </Button>
         </div>
 
