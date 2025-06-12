@@ -37,19 +37,19 @@ export function QuestionCard({
 
   return (
     <Card className="w-full mx-auto shadow-lg">
-      <CardHeader className="pb-4">
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-3">
-          <span className="text-sm font-medium text-muted-foreground">
-            Ερώτηση {questionNumber} από {totalQuestions}
+      <CardHeader className="pb-3">
+        <div className="flex flex-row justify-between items-center gap-2 mb-3">
+          <span className="text-xs font-medium text-muted-foreground">
+            Ερώτηση {questionNumber}
           </span>
           {question.category && (
-            <span   className={`text-xs px-3 py-1 rounded-full w-fit ${categoryStyle.bg} ${categoryStyle.text}`}>
+            <span   className={`text-[8px] px-2 py-1 rounded-full w-fit ${categoryStyle.bg} ${categoryStyle.text}`}>
               {question.category} ({question.indexInCategory})
             </span>
           )}
         </div>
 
-        <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: question.question }} />
+        <div className="text-sm leading-relaxed prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: question.question }} />
 
       </CardHeader>
       
@@ -71,16 +71,18 @@ export function QuestionCard({
                 onClick={() => onSelectAnswer(key)}
                 disabled={!!selectedAnswer}
                 className={`
-                  w-full justify-start
+                  w-full justify-start text-left h-auto py-2 px-3 min-h-[40px]
                   ${showAsCorrect ? "border-green-600 text-green-700 bg-green-50" : ""}
                   ${showAsWrong ? "border-red-600 text-red-700 bg-red-50" : ""}
                   ${isSelected && !showAsCorrect && !showAsWrong ? "border-blue-600" : ""}
                 `}
               >
-                <span className="font-bold mr-2 lowercase">
-                  {["α", "β", "γ", "δ"][index]}.
-                </span>
-                {option}
+                <div className="flex items-start gap-2 w-full">
+                  <span className="font-bold text-xs flex-shrink-0 mt-0.5">
+                    {["α", "β", "γ", "δ"][index]}.
+                  </span>
+                  <span className="text-xs leading-relaxed break-words flex-1 whitespace-normal">{option}</span>
+                </div>
               </Button>
             )
           })}
