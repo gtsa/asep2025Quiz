@@ -7,6 +7,7 @@ import { CATEGORIES } from "@/lib/constants"
 
 export default function Home() {
   const [questionCount, setQuestionCount] = useState<number | "max" | null>(null)
+  const [isQuizCompleted, setIsQuizCompleted] = useState(false)
   const [isShuffled, setIsShuffled] = useState(() => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem("isShuffled")
@@ -38,11 +39,11 @@ export default function Home() {
   return (
     <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50">
       {/* Header (only show if quiz not started) */}
-      {questionCount === null && (
+      {!isQuizCompleted && (
         <div className="bg-white shadow-sm border-b sticky top-0 z-10">
-          <div className="container mx-auto px-4 py-4">
+          <div className="container mx-auto px-3 py-3">
             <div className="text-center">
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-1">
+              <h1 className="text-2xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1">
                 Εξάσκηση ΑΣΕΠ 2025
               </h1>
             </div>
@@ -52,7 +53,7 @@ export default function Home() {
 
 
       {/* Main Content */}
-      <div className="container mx-auto py-0 sm:py-8">
+      <div className="container mx-auto min-h-[calc(100vh-6rem)] flex flex-col py-0 sm:py-8">
         {questionCount === null && selectedCategories !== null ? (
           <QuizStartMenu
             onStart={(count) => setQuestionCount(count)}
@@ -67,16 +68,18 @@ export default function Home() {
             isShuffled={isShuffled}
             setIsShuffled={setIsShuffled}
             selectedCategories={selectedCategories}
+            setIsQuizCompleted={setIsQuizCompleted}
           />
         )}
       </div>
 
       {/* Footer */}
-      <div className="bg-gray-50 border-t mt-12">
-        <div className="container mx-auto px-4 py-0 text-center">
+      <div className="fixed bottom-0 left-0 w-full bg-gray-50 border-t">
+        <div className="container mx-auto px-3 py-1 text-center">
           <p className="text-xs text-gray-500">Σύρε ή πάτησε για πλοήγηση • 🄯 2025 geotsa</p>
         </div>
       </div>
+
     </div>
   )
 }

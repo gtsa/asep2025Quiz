@@ -29,7 +29,7 @@ export const CategoryBadges: React.FC<Props> = ({ selected, onToggle }) => {
           <button
             key={cat}
             onClick={() => onToggle(cat)}
-            className={`px-3 py-1 rounded-full border text-sm font-medium transition
+            className={`px-2 py-2 rounded-full border text-xs font-medium transition
               ${isActive
                 ? `${color.bg} ${color.text} ${color.border}`
                 : "bg-white text-gray-700 border-gray-300 hover:bg-indigo-50"

@@ -41,16 +41,14 @@ export const QuizStartMenu: React.FC<QuizStartMenuProps> = ({
   return (
     <div className="flex flex-col">
       {/* Sticky Category Badges at the very top */}
-      <div className="sticky top-0 z-20 bg-white border-b px-4 py-2">
+      <div className="sticky top-0 z-20 bg-white border-b px-3 py-2">
         <CategoryBadges
           selected={selectedCategories}
           onToggle={handleCategoryToggle}
         />
       </div>
       {/* Scrollable main content */}
-      <div className="flex flex-col items-center px-4 py-6 space-y-8 flex-1 overflow-y-auto">
-        <p className="text-muted-foreground text-center text-lg">Πόσες ερωτήσεις θέλεις για εξάσκηση;</p>
-
+      <div className="flex flex-col items-center px-3 py-6 space-y-2 flex-1 overflow-y-auto">
         <label className="text-sm text-gray-600 flex items-center gap-2">
           <input
             type="checkbox"
@@ -59,18 +57,18 @@ export const QuizStartMenu: React.FC<QuizStartMenuProps> = ({
           />
           Ανακατεμένες Απαντήσεις
         </label>
-
-        <div className="flex flex-wrap gap-4 justify-center">
+        <p className="text-muted-foreground text-center text-base pt-6 pb-4">Πόσες ερωτήσεις θέλεις για εξάσκηση;</p>
+        <div className="flex flex-wrap gap-2 justify-center">
           {[10, 20, 50].map((count) => (
             <Button
               key={count}
-              size="lg"
+              size="sm"
               onClick={() => onStart(count, selectedCategories)}
             >
               {count} Ερωτήσεις
             </Button>
           ))}
-          <Button key="all" size="lg" onClick={() => onStart("max", selectedCategories)}>
+          <Button key="all" size="sm" onClick={() => onStart("max", selectedCategories)}>
             Όλες
           </Button>
         </div>

@@ -14,12 +14,14 @@ export function Quiz({
   questionCount,
   isShuffled,
   setIsShuffled,
-  selectedCategories
+  selectedCategories,
+  setIsQuizCompleted
 }: {
   questionCount: number | "max"
   isShuffled: boolean
   setIsShuffled: (value: boolean) => void
   selectedCategories: string[]
+  setIsQuizCompleted: (val: boolean) => void
 }) {
   const [activeTab, setActiveTab] = useState<"all" | "wrong">("all")
   const {
@@ -44,12 +46,16 @@ export function Quiz({
     }
   }, [questionCount, selectedCategories])
 
+  useEffect(() => {
+    setIsQuizCompleted(quizState.isCompleted)
+  }, [quizState.isCompleted, setIsQuizCompleted])
+
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh] px-4">
+      <div className="flex items-center justify-center min-h-[60vh] px-3">
         <div className="text-center">
-          <Loader2 className="animate-spin h-12 w-12 text-blue-600 mx-auto mb-4" />
-          <p className="text-muted-foreground text-lg">Φόρτωση ερωτήσεων...</p>
+          <Loader2 className="animate-spin h-8 w-8 text-blue-600 mx-auto mb-4" />
+          <p className="text-muted-foreground text-xs">Φόρτωση ερωτήσεων...</p>
           <p className="text-sm text-muted-foreground mt-2">Παρακαλούμε περιμένετε όσο ετοιμάζουμε το κουίζ σας.</p>
         </div>
       </div>
@@ -58,13 +64,13 @@ export function Quiz({
 
   if (error) {
     return (
-      <div className="px-4">
+      <div className="px-3">
         <Card className="w-full mx-auto">
-          <CardContent className="pt-6 text-center">
-            <div className="text-red-500 text-6xl mb-4">⚠️</div>
-            <h3 className="text-lg font-semibold mb-2">Ουπς! Κάτι πήγε στραβά.</h3>
+          <CardContent className="pt-3 text-center">
+            <div className="text-red-500 text-4xl mb-4">⚠️</div>
+            <h3 className="text-xs font-semibold mb-2">Ουπς! Κάτι πήγε στραβά.</h3>
             <p className="text-red-600 mb-6 text-sm">{error}</p>
-            <Button onClick={() => window.location.reload()} className="w-full sm:w-auto" size="lg">
+            <Button onClick={() => window.location.reload()} className="w-full sm:w-auto" size="sm">
               Try Again
             </Button>
           </CardContent>
@@ -75,11 +81,11 @@ export function Quiz({
 
   if (questions.length === 0) {
     return (
-      <div className="px-4">
+      <div className="px-3">
         <Card className="w-full mx-auto">
-          <CardContent className="pt-6 text-center">
-            <div className="text-gray-400 text-6xl mb-4">📝</div>
-            <p className="text-muted-foreground text-lg">Δεν υπάρχουν διαθέσιμες ερωτήσεις.</p>
+          <CardContent className="pt-3 text-center">
+            <div className="text-gray-400 text-4xl mb-4">📝</div>
+            <p className="text-muted-foreground text-xs">Δεν υπάρχουν διαθέσιμες ερωτήσεις.</p>
             <p className="text-sm text-muted-foreground mt-2">Παρακαλούμε ελέγξτε ξανά αργότερα.</p>
           </CardContent>
         </Card>
@@ -121,26 +127,28 @@ export function Quiz({
     const styles = colorMap[color]
 
     return (
-      <div className="px-4">
-        <Card className="w-full mx-auto">
-          <CardHeader className="text-center pb-4">
+      <div className="px-0.5 py-0.5">
+        <Card className="w-full mx-auto flex flex-col flex-1">
+          <CardHeader className="text-center pb-3">
             <div
-              className={`w-24 h-24 rounded-full mx-auto mb-2 flex items-center justify-center text-4xl font-extrabold border-4 ${styles.bg} ${styles.text} ${styles.border}`}
+              className={`w-20 h-20 rounded-full mx-auto mb-2 flex items-center justify-center text-2xl font-extrabold border-4 ${styles.bg} ${styles.text} ${styles.border}`}
             >
               {percentage}%
             </div>
-            <CardTitle className={`text-lg sm:text-xl font-semibold ${styles.text}`}>
-              Ποσοστό Επιτυχίας{percentage === 100 ? " 🎉" : ""}
+            <CardTitle className={`text-base sm:text-sm font-semibold ${styles.text}`}>
+              Επιτυχία{percentage === 100 ? " 🎉" : ""}
             </CardTitle>
             {percentage < 50 && (
               <p className="text-sm font-medium text-red-600 mt-2">Προσπάθησε περισσότερο — μπορείς να τα καταφέρεις!</p>
             )}
           </CardHeader>
-          <CardContent className="text-center space-y-6">
-            <div className={`rounded-lg p-4 ${styles.softBg}`}>
-              <p className={`text-lg font-semibold ${styles.softText}`}>
+          {/* <CardContent className="text-center space-y-4  px-2"> */}
+          <CardContent className="flex flex-col flex-1 overflow-y-auto">
+            <div className={`rounded-lg p-2 text-center ${styles.softBg}`}>
+              {/* leading-relaxed prose-sm max-w-none */}
+              <span className={`prose-base max-w-none ${styles.softText}`}>
                 Απάντησες σωστά {quizState.score} στις {questions.length} ερωτήσεις
-              </p>
+              </span>
               <p className={`text-sm mt-1 ${styles.softTextAlt}`}>
                 {percentage === 100
                   ? "Τέλεια επίδοση! 🎯"
@@ -152,17 +160,26 @@ export function Quiz({
               </p>
             </div>
 
-            <div className="space-y-3">
-              <h3 className="font-semibold text-lg">Οι απαντήσεις σου</h3>
-              <div className="flex gap-2 justify-center">
-                <Button variant={activeTab === "all" ? "default" : "outline"} onClick={() => setActiveTab("all")} size="sm">
+            <div className="space-y-2">
+              <h3 className="font-semibold text-base text-center pt-2">Οι απαντήσεις σου</h3>
+              <div className="flex gap-1 justify-center">
+                <Button
+                  variant={activeTab === "all" ? "default" : "outline"}
+                  onClick={() => setActiveTab("all")}
+                  className="w-full px-2 py-1  h-auto"
+                >
                   Όλες
                 </Button>
-                <Button variant={activeTab === "wrong" ? "default" : "outline"} onClick={() => setActiveTab("wrong")} size="sm">
+                <Button
+                  variant={activeTab === "wrong" ? "default" : "outline"}
+                  onClick={() => setActiveTab("wrong")}
+                  className="w-full px-2 py-1 h-auto"
+                >
                   Λάθος Απαντήσεις
                 </Button>
               </div>
-              <div className="bg-gray-50 rounded-lg p-4 max-h-80 overflow-y-auto">
+
+              <div className="bg-gray-50 rounded-lg p-1 h-full max-h-[calc(100vh-4rem)] overflow-y-auto">
                 {questions.every(q => activeTab === "wrong" ? quizState.answers[q.id] === q.correctAnswer : false) ? (
                   <p className="text-sm text-muted-foreground text-center">Καμμία λάθος απάντηση 🎉</p>
                 ) : (
@@ -174,19 +191,25 @@ export function Quiz({
                       if (!show) return null
                       return (
                         <div key={question.id} className="border-b border-gray-200 pb-3 last:border-b-0">
-                          <div className="flex justify-between items-start mb-1">
-                            <p className="font-medium text-sm">
-                              Q{index + 1}:{' '}                         
-                            <span className="prose max-w-none" dangerouslySetInnerHTML={{ __html: question.question }} />
-                            </p>
+                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-1">
                             {question.category && (
                               <span
-                                className={`text-xs px-2 py-0.5 rounded-full whitespace-nowrap ml-4 shrink-0 ${categoryStyle.bg} ${categoryStyle.text}`}
+                                className={`order-1 sm:order-2 text-[8px] px-2 py-0.5 rounded-full whitespace-nowrap ml-0 sm:ml-4 shrink-0 ${categoryStyle.bg} ${categoryStyle.text}`}
                               >
                                 {question.category} ({question.indexInCategory})
                               </span>
                             )}
+
+                            <p className="order-2 sm:order-1 font-medium text-xs">
+                              Q{index + 1}:{' '}
+                              <span
+                                className="prose max-w-none inline text-xs sm:text-xs"
+                                dangerouslySetInnerHTML={{ __html: question.question }}
+                              />
+                            </p>
                           </div>
+
+
                           <p className={`text-xs px-2 py-1 rounded ${quizState.answers[question.id] === question.correctAnswer ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
                             <span className="font-medium">Απάντησή σου:</span> {quizState.answers[question.id] || "Not answered"}
                           </p>
@@ -203,10 +226,12 @@ export function Quiz({
               </div>
             </div>
 
-            <Button onClick={resetQuiz} className="w-full sm:w-auto" size="lg">
-              <RotateCcw className="w-4 h-4 mr-2" />
-              Δοκίμασε ξανά
-            </Button>
+            <div className="mt-auto pt-4">
+              <Button onClick={resetQuiz} className="w-full sm:w-auto" size="sm">
+                <RotateCcw className="w-3 h-3 mr-2" />
+                Δοκίμασε ξανά
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -215,9 +240,9 @@ export function Quiz({
 
   if (!currentQuestion) {
     return (
-      <div className="px-4">
+      <div className="px-3">
         <Card className="w-full mx-auto">
-          <CardContent className="pt-6 text-center">
+          <CardContent className="pt-3 text-center">
             <p className="text-muted-foreground">Δεν βρέθηκε η ερώτηση.</p>
           </CardContent>
         </Card>
@@ -226,9 +251,9 @@ export function Quiz({
   }
 
   return (
-    <div className="space-y-6 px-4">
+    <div className="space-y-4 px-3 ">
       <div className="w-full">
-        <div className="flex justify-between items-center mb-3">
+        <div className="flex justify-between items-center mb-3 pt-3 pb-1">
           <div className="flex items-center gap-2">
             <input
               type="checkbox"
@@ -237,16 +262,12 @@ export function Quiz({
             />
             <span className="text-sm text-gray-600">Ανακατεμένες Απαντήσεις</span>
           </div>
-          <span className="text-sm font-medium text-muted-foreground">
-            {Object.keys(quizState.answers).length} από {questions.length} απαντήθηκαν
-          </span>
           <span className="text-sm font-medium text-blue-600">
-            Ερώτηση {quizState.currentQuestionIndex + 1}
+            {Object.keys(quizState.answers).length} από {questions.length} απαντήθηκαν
           </span>
         </div>
         <ProgressBar progress={progress} />
       </div>
-
       <AnimatePresence mode="wait">
         <motion.div
           key={quizState.currentQuestionIndex}
@@ -266,43 +287,31 @@ export function Quiz({
           />
         </motion.div>
       </AnimatePresence>
-
-      <div className="flex flex-col sm:flex-row gap-3 sm:justify-between sm:items-center pt-4">
+      <div className="flex gap-2 pt-2">
         <Button
           variant="outline"
           onClick={previousQuestion}
           disabled={quizState.currentQuestionIndex === 0}
-          className="w-full sm:w-auto order-2 sm:order-1"
-          size="lg"
+          className="flex-1"
+          size="sm"
         >
-          <ChevronLeft className="w-4 h-4 mr-2" />
+          <ChevronLeft className="w-3 h-3 mr-1" />
           Προηγούμενη
         </Button>
-
         <Button
           onClick={nextQuestion}
           disabled={!currentAnswer}
-          className={`w-full sm:w-auto order-1 sm:order-2 ${
+          className={`flex-1 ${
             quizState.currentQuestionIndex === questions.length - 1
               ? "bg-green-600 hover:bg-green-700"
               : "bg-blue-600 hover:bg-blue-700"
           }`}
-          size="lg"
+          size="sm"
         >
-          {quizState.currentQuestionIndex === questions.length - 1
-            ? "Ολοκλήρωση"
-            : "Επόμενη"}
-          <ChevronRight className="w-4 h-4 ml-2" />
+          {quizState.currentQuestionIndex === questions.length - 1 ? "Τέλος" : "Επόμενη"}
+          <ChevronRight className="w-3 h-3 ml-1" />
         </Button>
       </div>
-
-      {!currentAnswer && (
-        <div className="text-center">
-          <p className="text-sm text-muted-foreground bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-            👆 Διάλεξε μια απάντηση για να συνεχίσεις
-          </p>
-        </div>
-      )}
     </div>
   )
 }
