@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Quiz } from "@/components/quiz"
-import { QuizStartMenu } from "@/components/quizStartMenu"
+import { Quiz } from "@/components/Quiz"
+import { QuizStartMenu } from "@/components/QuizStartMenu"
 import { CATEGORIES } from "@/lib/constants"
 
 export default function Home() {
