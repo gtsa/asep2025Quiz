@@ -6,56 +6,55 @@ import { QuizStartMenu } from "@/components/quizStartMenu"
 import { CATEGORIES } from "@/lib/constants"
 
 export default function Home() {
+  const [hasMounted, setHasMounted] = useState(false)
   const [questionCount, setQuestionCount] = useState<number | "max" | null>(null)
   const [isQuizCompleted, setIsQuizCompleted] = useState(false)
+
+  useEffect(() => {
+    setHasMounted(true)
+  }, [])
+
   const [isShuffled, setIsShuffled] = useState(() => {
     if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("isShuffled")
-      return stored === "true"
+      return localStorage.getItem("isShuffled") === "true"
     }
     return false
   })
-  useEffect(() => {
-    localStorage.setItem("isShuffled", String(isShuffled))
-  }, [isShuffled])
-  
-  const [selectedCategories, setSelectedCategories] = useState<string[] | null>(null)
 
-  // Load from localStorage (only on client)
-  useEffect(() => {
-    const stored = localStorage.getItem("selectedCategories")
-    setSelectedCategories(stored ? JSON.parse(stored) : CATEGORIES)
-  }, [])
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("selectedCategories")
+      return stored ? JSON.parse(stored) : CATEGORIES
+    }
+    return CATEGORIES // fallback for SSR
+  })
 
-  // Sync to localStorage on change
+
   useEffect(() => {
     if (selectedCategories) {
       localStorage.setItem("selectedCategories", JSON.stringify(selectedCategories))
     }
   }, [selectedCategories])
 
-  if (selectedCategories === null) return null
+  // ✅ only *render* conditionally, not call hooks conditionally
+  if (!hasMounted || selectedCategories === null) return null
 
   return (
     <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50">
-      {/* Header (only show if quiz not started) */}
+      {/* Header */}
       {!isQuizCompleted && (
-        <div
-          className="bg-white shadow-sm border-b sticky top-0 z-30"
-          style={{
-            boxShadow: '0 2px 12px rgba(1, 28, 75, 0.68)',
-          }}
-        >
+        <div className="bg-white shadow-sm border-b sticky top-0 z-30" style={{ boxShadow: '0 2px 12px rgba(1, 28, 75, 0.68)' }}>
           <div className="container mx-auto px-3 py-3">
-              <h1 className="text-2xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 text-center text-blue-900">
-                Εξάσκηση ΑΣΕΠ 2025
-              </h1>
+            <h1 className="text-2xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 text-center text-blue-900">
+              Εξάσκηση ΑΣΕΠ 2025
+            </h1>
           </div>
         </div>
       )}
-      {/* Main Content */}
+
+      {/* Main */}
       <div className="container mx-auto min-h-[calc(100vh-6rem)] flex flex-col py-0 sm:py-8">
-        {questionCount === null && selectedCategories !== null ? (
+        {questionCount === null ? (
           <QuizStartMenu
             onStart={(count) => setQuestionCount(count)}
             selectedCategories={selectedCategories}
@@ -80,7 +79,6 @@ export default function Home() {
           <p className="text-xs text-gray-500">Σύρε ή πάτησε για πλοήγηση • 🄯 2025 geotsa</p>
         </div>
       </div>
-
     </div>
   )
 }

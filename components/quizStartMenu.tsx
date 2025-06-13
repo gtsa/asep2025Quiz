@@ -9,7 +9,7 @@ import { CATEGORIES } from "@/lib/constants"
 type QuizStartMenuProps = {
   onStart: (questionCount: number | "max", selectedCategories: string[]) => void
   selectedCategories: string[]
-  setSelectedCategories: (categories: string[]) => void
+  setSelectedCategories: React.Dispatch<React.SetStateAction<string[]>>
   isShuffled: boolean
   setIsShuffled: (value: boolean) => void
 }
