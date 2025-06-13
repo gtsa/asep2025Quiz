@@ -40,18 +40,19 @@ export default function Home() {
     <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50">
       {/* Header (only show if quiz not started) */}
       {!isQuizCompleted && (
-        <div className="bg-white shadow-sm border-b sticky top-0 z-10">
+        <div
+          className="bg-white shadow-sm border-b sticky top-0 z-30"
+          style={{
+            boxShadow: '0 2px 12px rgba(1, 28, 75, 0.68)',
+          }}
+        >
           <div className="container mx-auto px-3 py-3">
-            <div className="text-center">
-              <h1 className="text-2xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1">
+              <h1 className="text-2xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 text-center text-blue-900">
                 Εξάσκηση ΑΣΕΠ 2025
               </h1>
-            </div>
           </div>
         </div>
       )}
-
-
       {/* Main Content */}
       <div className="container mx-auto min-h-[calc(100vh-6rem)] flex flex-col py-0 sm:py-8">
         {questionCount === null && selectedCategories !== null ? (
