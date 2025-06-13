@@ -1,8 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Card, CardContent, CardHeader} from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader} from "@/components/ui/Card"
+import { Button } from "@/components/ui/Button"
 import { categoryColorMap, defaultCategoryColor } from "@/lib/categoryColors"
 import type { Question } from "@/lib/types"
 
@@ -11,7 +11,6 @@ interface QuestionCardProps {
   selectedAnswer?: string
   onSelectAnswer: (answer: string) => void
   questionNumber: number
-  totalQuestions: number
   isShuffled: boolean
 }
 
@@ -20,7 +19,6 @@ export function QuestionCard({
   selectedAnswer,
   onSelectAnswer,
   questionNumber,
-  totalQuestions,
   isShuffled
 }: QuestionCardProps) {
   const [shuffledOptions, setShuffledOptions] = useState<[string, string][]>([])

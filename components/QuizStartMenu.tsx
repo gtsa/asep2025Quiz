@@ -1,9 +1,9 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { CategoryBadges } from "@/components/categoryBadges"
+import { Button } from "@/components/ui/Button"
+import { Input } from "@/components/ui/Input"
+import { CategoryBadges } from "@/components/CategoryBadges"
 import { CATEGORIES } from "@/lib/constants"
 
 type QuizStartMenuProps = {
