@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader} from "@/components/ui/Card"
 import { Button } from "@/components/ui/Button"
 import { categoryColorMap, defaultCategoryColor } from "@/lib/categoryColors"
 import type { Question } from "@/lib/types"
+import { cn } from "@/lib/utils"
 
 interface QuestionCardProps {
   question: Question
@@ -68,12 +69,13 @@ export function QuestionCard({
                 variant="outline"
                 onClick={() => onSelectAnswer(key)}
                 disabled={!!selectedAnswer}
-                className={`
-                  w-full justify-start text-left h-auto py-2 px-3 min-h-[40px]
-                  ${showAsCorrect ? "border-green-600 text-green-700 bg-green-50" : ""}
-                  ${showAsWrong ? "border-red-600 text-red-700 bg-red-50" : ""}
-                  ${isSelected && !showAsCorrect && !showAsWrong ? "border-blue-600" : ""}
-                `}
+                className={cn(
+                  "w-full justify-start text-left h-auto py-2 px-3 min-h-[40px]",
+                  showAsCorrect && "border-green-600 text-green-700 bg-green-50 !opacity-100",
+                  showAsWrong && "border-red-600 text-red-700 bg-red-50 !opacity-100",
+                  isSelected && !showAsCorrect && !showAsWrong && "border-blue-600 !opacity-100",
+                  selectedAnswer && !showAsCorrect && !showAsWrong && "opacity-50"
+                )}
               >
                 <div className="flex items-start gap-2 w-full">
                   <span className="font-bold text-xs flex-shrink-0 mt-0.5">
