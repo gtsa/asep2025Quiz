@@ -49,7 +49,7 @@ export function QuestionCard({
           )}
         </div>
 
-        <div className="text-sm leading-relaxed prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: question.question }} />
+        <div className="text-sm leading-relaxed prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: question.question ?? "" }} />
 
       </CardHeader>
       

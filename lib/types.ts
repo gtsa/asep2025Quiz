@@ -1,12 +1,7 @@
 export interface Question {
   id: string
   question?: string
-  options: {
-    α: string
-    β: string
-    γ: string
-    δ: string
-  }
+  options: Record<string, string> 
   correctAnswer?: string
   correctAnswerKey?: string
   category?: string

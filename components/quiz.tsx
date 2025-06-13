@@ -41,9 +41,8 @@ export function Quiz({
 
 
   useEffect(() => {
-    if (questionCount !== undefined && questionCount !== null) {
-      fetchQuestions(questionCount, selectedCategories)
-    }
+    const count = questionCount === "max" ? undefined : questionCount
+    fetchQuestions(count, selectedCategories)
   }, [questionCount, selectedCategories])
 
   useEffect(() => {
@@ -204,7 +203,7 @@ export function Quiz({
                               Q{index + 1}:{' '}
                               <span
                                 className="prose max-w-none inline text-xs sm:text-xs"
-                                dangerouslySetInnerHTML={{ __html: question.question }}
+                                dangerouslySetInnerHTML={{ __html: question.question ?? "" }}
                               />
                             </p>
                           </div>
@@ -280,9 +279,7 @@ export function Quiz({
             question={currentQuestion}
             selectedAnswer={currentAnswer}
             onSelectAnswer={selectAnswer}
-            correctAnswer={currentQuestion.correctAnswer}
             questionNumber={quizState.currentQuestionIndex + 1}
-            totalQuestions={questions.length}
             isShuffled={isShuffled}
           />
         </motion.div>
