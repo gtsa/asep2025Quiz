@@ -14,12 +14,18 @@ export default function Home() {
     setHasMounted(true)
   }, [])
 
-  const [isShuffled, setIsShuffled] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("isShuffled") === "true"
+  const [isShuffled, setIsShuffled] = useState(false)
+
+  useEffect(() => {
+    const stored = localStorage.getItem("isShuffled")
+    if (stored !== null) {
+      setIsShuffled(stored === "true")
     }
-    return false
-  })
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem("isShuffled", isShuffled.toString())
+  }, [isShuffled])
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
     if (typeof window !== "undefined") {
