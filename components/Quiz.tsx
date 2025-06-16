@@ -226,7 +226,7 @@ export function Quiz({
               </div>
             </div>
 
-            <div className="mt-auto pt-4">
+            <div className="mt-auto pt-4 flex justify-center">
               <Button onClick={resetQuiz} className="w-full sm:w-auto" size="sm">
                 <RotateCcw className="w-3 h-3 mr-2" />
                 Δοκίμασε ξανά
