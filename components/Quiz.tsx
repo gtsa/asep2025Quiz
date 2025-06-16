@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card"
 import { QuestionCard } from "./QuestionCard"
 import { ProgressBar } from "./ProgressBar"
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/Popover"
 import { useQuiz } from "@/hooks/use-quiz"
 import { ChevronLeft, ChevronRight, RotateCcw, Loader2 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
@@ -252,6 +253,45 @@ export function Quiz({
   return (
     <div className="space-y-4 px-3 ">
       <div className="w-full">
+        <div className="mt-2">
+          <Popover>
+            <PopoverTrigger asChild>
+              <button
+                className="flex items-center gap-2 px-2 py-1 rounded-md border border-gray-300 hover:bg-gray-100 text-xs font-medium text-gray-700"
+              >
+                Επιλεγμένες κατηγορίες:
+                <div className="flex gap-1">
+                  {selectedCategories.map((cat) => {
+                    const categoryStyle = categoryColorMap[cat] ?? defaultCategoryColor
+                    return (
+                      <span
+                        key={cat}
+                        className={`w-3 h-3 rounded-full border ${categoryStyle.bg} border-current`}
+                        title={cat}
+                      />
+                    )
+                  })}
+                </div>
+                <span className="ml-1 text-gray-500">▼</span>
+              </button>
+            </PopoverTrigger>
+            <PopoverContent className="text-xs max-w-xs">
+              <div className="flex flex-wrap gap-1">
+              {selectedCategories.map((cat) => {
+                const categoryStyle = categoryColorMap[cat] ?? defaultCategoryColor
+                return (
+                  <span
+                    key={cat}
+                    className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${categoryStyle.bg} ${categoryStyle.text}`}
+                  >
+                    {cat}
+                  </span>
+                )
+              })}
+            </div>
+            </PopoverContent>
+          </Popover>
+        </div>
         <div className="flex justify-between items-center mb-3 pt-3 pb-1">
           <div className="flex items-center gap-2">
             <input
