@@ -49,6 +49,13 @@ export function useQuiz() {
 
   const fetchQuestions = async (limit?: number, categories?: string[]) => {
     try {
+      setQuizState({
+        currentQuestionIndex: 0,
+        answers: {},
+        score: 0,
+        isCompleted: false,
+      })
+
       setLoading(true)
       const params = new URLSearchParams()
       if (limit !== undefined) params.append("limit", limit.toString())
@@ -126,6 +133,7 @@ export function useQuiz() {
   }
 
   const resetQuiz = () => {
+    localStorage.removeItem("shuffledQuestions")
     setQuizState({
       currentQuestionIndex: 0,
       answers: {},

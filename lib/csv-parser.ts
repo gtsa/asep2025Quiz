@@ -58,7 +58,7 @@ export function convertCSVToQuestions(csvRows: CSVRow[]): Question[] {
     })()
 
     return {
-      id: String(row["#"] ?? index + 1),
+      id: `${index + 1}`,
       question: row.question?.trim(),
       options: {
         α: row.a?.trim(),
@@ -72,7 +72,8 @@ export function convertCSVToQuestions(csvRows: CSVRow[]): Question[] {
                    correctLetter === "δ" ? "d" : "a"]?.trim(),
       correctAnswerKey: correctLetter,
       category: row.category?.trim() || "Γενικά",
-      indexInCategory: row["#"]
+      indexInCategory: Number(row["#"])
+
     }
   })
 }
