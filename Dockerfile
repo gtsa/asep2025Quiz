@@ -5,12 +5,11 @@ WORKDIR /app
 
 # Install deps
 COPY package.json package-lock.json ./
-RUN npm install
-RUN npm install -g pnpm && pnpm install
+RUN npm ci
 
 # Copy everything else and build
 COPY . .
-RUN pnpm build
+RUN npm run build
 
 # Stage 2: Run
 FROM node:20-alpine
@@ -18,8 +17,8 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Install only production deps
-COPY package.json pnpm-lock.yaml ./
-RUN npm install -g pnpm && pnpm install --prod
+COPY package.json package-lock.json ./
+RUN npm ci --only=production
 
 # Copy built app
 COPY --from=builder /app/.next .next
@@ -28,4 +27,4 @@ COPY --from=builder /app/next.config.mjs .
 COPY --from=builder /app/package.json .
 
 EXPOSE 3000
-CMD ["pnpm", "start"]
+CMD ["npm", "start"]
