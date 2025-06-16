@@ -133,6 +133,32 @@ body {
   ::-webkit-scrollbar-thumb:hover {
     background: #a8a8a8;
   }
+
+  @media (hover: none) and (pointer: coarse) {
+    .no-touch-highlight::-moz-focus-inner,
+    .no-touch-highlight:focus {
+      outline: none !important;
+    }
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    .no-touch-highlight {
+      -webkit-tap-highlight-color: transparent;
+    }
+    .no-touch-highlight:active {
+      opacity: 1 !important;
+      background-color: inherit !important;
+    }
+  }
+
+  .no-touch-highlight:active {
+    background-color: inherit !important;
+  }
+
+  button.no-touch-highlight:active {
+    background-color: inherit !important;
+    filter: none !important;
+  }
 }
 
 /* Mobile-specific animations */
