@@ -28,11 +28,16 @@ export const CategoryBadges: React.FC<Props> = ({ selected, onToggle }) => {
         return (
           <button
             key={cat}
-            onClick={() => onToggle(cat)}
-            className={`px-2 py-2 rounded-full border text-xs font-medium transition
+            onClick={(e) => {
+              onToggle(cat);
+              setTimeout(() => {
+                (e.currentTarget as HTMLButtonElement).blur();
+              }, 50);
+            }}      
+            className={`px-2 py-2 rounded-full border text-xs font-medium transition no-touch-highlight
               ${isActive
                 ? `${color.bg} ${color.text} ${color.border}`
-                : "bg-white text-gray-700 border-gray-300 hover:bg-indigo-50"
+                : "bg-white text-gray-700 border-gray-300"
               }`}
           >
             {cat}
