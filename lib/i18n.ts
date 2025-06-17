@@ -11,7 +11,7 @@ i18n
     resources: {
       el: {
         translation: {
-          title: "Εξάσκηση ΑΣΕΠ 2025",
+          title: "ΑΣΕΠ 2025 Εξάσκηση",
           footer: "Σύρε ή πάτησε για πλοήγηση",
           question: "Ερώτηση",
           optionLabels: ["α", "β", "γ", "δ"],
@@ -48,7 +48,7 @@ i18n
           yourAnswer: "Απάντησή σου:",
           correctAnswer: "Σωστό:",
           chooseCategories: "Διάλεξε κατηγορίες για εξάσκηση:",
-          installLine1: "Εγκαταστήστε την",
+          installLine1: "Εγκαταστήστε το",
           installLine2: "για καλύτερη εμπειρία πλήρους οθόνης!",
           installButton: "Εγκατάσταση",
           laterButton: "Ίσως αργότερα"

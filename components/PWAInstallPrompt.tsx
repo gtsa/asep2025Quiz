@@ -78,23 +78,23 @@ export default function PWAInstallPrompt() {
   if (mode === null) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 bg-white border border-gray-300 rounded-xl shadow-lg p-4 z-50 text-center text-sm sm:text-base">
+    <div className="fixed bottom-4 left-4 right-4 bg-white dark:bg-zinc-900 text-black dark:text-white border border-gray-300 dark:border-zinc-700 rounded-xl shadow-lg p-4 z-50 text-center text-sm sm:text-base">
       <p className="mb-3">
-        {t("pwa.installLine1")} <strong>{t("title")}</strong><br />
-        {t("pwa.installLine2")}
+        {t("installLine1")} <strong>{t("title")}</strong><br />
+        {t("installLine2")}
       </p>
       <div className="flex justify-center gap-3">
         <button
           onClick={onInstall}
-          className="bg-blue-600 text-white px-4 py-2 rounded font-semibold hover:bg-blue-700"
+          className="bg-zinc-800 dark:bg-zinc-100 text-white dark:text-zinc-900 px-4 py-2 rounded font-semibold hover:bg-zinc-700 dark:hover:bg-white"
         >
-          {t("pwa.installButton")}
+          {t("installButton")}
         </button>
         <button
           onClick={() => setMode(null)}
-          className="bg-gray-200 text-gray-800 px-4 py-2 rounded font-semibold hover:bg-gray-300"
+          className="bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-100 px-4 py-2 rounded font-semibold hover:bg-zinc-300 dark:hover:bg-zinc-700"
         >
-          {t("pwa.laterButton")}
+          {t("laterButton")}
         </button>
       </div>
     </div>
