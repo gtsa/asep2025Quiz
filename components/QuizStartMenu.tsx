@@ -41,7 +41,7 @@ export const QuizStartMenu: React.FC<QuizStartMenuProps> = ({
   return (
     <div className="flex flex-col">
       {/* Sticky Category Badges at the very top */}
-      <div className="sticky top-0 z-20 bg-white border-b px-3 py-2">
+      <div className="sticky top-0 z-20 bg-white border-b px-3 py-2 dark:bg-gray-800 dark:border-gray-800">
         <CategoryBadges
           selected={selectedCategories}
           onToggle={handleCategoryToggle}

@@ -257,7 +257,7 @@ export function Quiz({
           <Popover>
             <PopoverTrigger asChild>
               <button
-                className="flex items-center gap-2 px-2 py-1 rounded-md border border-gray-300 hover:bg-gray-100 text-xs font-medium text-gray-700"
+                className="flex items-center gap-2 px-2 py-1 rounded-md border border-gray-300 hover:bg-gray-100 text-xs font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600"
               >
                 Επιλεγμένες κατηγορίες:
                 <div className="flex gap-1">
