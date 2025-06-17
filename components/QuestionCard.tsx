@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/Button"
 import { categoryColorMap, defaultCategoryColor } from "@/lib/categoryColors"
 import type { Question } from "@/lib/types"
 import { cn } from "@/lib/utils"
-import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
 
 interface QuestionCardProps {

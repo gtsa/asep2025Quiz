@@ -10,7 +10,6 @@ import { useQuiz } from "@/hooks/use-quiz"
 import { ChevronLeft, ChevronRight, RotateCcw, Loader2 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { categoryColorMap, defaultCategoryColor } from "@/lib/categoryColors"
-import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
 
 export function Quiz({
@@ -137,11 +136,11 @@ export function Quiz({
         <Card className="w-full mx-auto flex flex-col flex-1">
           <CardHeader className="text-center pb-3">
             <div
-              className={`w-20 h-20 rounded-full mx-auto mb-2 flex items-center justify-center text-2xl font-extrabold border-4 ${styles.bg} ${styles.text} ${styles.border}`}
+              className={`w-20 h-20 rounded-full mx-auto mb-2 flex items-center justify-center text-2xl font-extrabold border-4 ${styles.bg} ${styles.text} ${styles.border} dark:bg-opacity-5`}
             >
               {percentage}%
             </div>
-            <CardTitle className={`text-base sm:text-sm font-semibold ${styles.text}`}>
+            <CardTitle className={`text-base sm:text-sm font-semibold ${styles.text} dark:bg-opacity-5`}>
               {t("success")}{percentage === 100 ? " 🎉" : ""}
             </CardTitle>
             {percentage < 50 && (
@@ -150,7 +149,7 @@ export function Quiz({
           </CardHeader>
           {/* <CardContent className="text-center space-y-4  px-2"> */}
           <CardContent className="flex flex-col flex-1 overflow-y-auto">
-            <div className={`rounded-lg p-2 text-center ${styles.softBg}`}>
+            <div className={`rounded-lg p-2 text-center ${styles.softBg} dark:bg-opacity-5`}>
               {/* leading-relaxed prose-sm max-w-none */}
               <span className={`prose-base max-w-none ${styles.softText}`}>
                 {t("correct")} {quizState.score} {t("on")} {questions.length} {t("questions")}
@@ -186,7 +185,7 @@ export function Quiz({
                 </Button>
               </div>
 
-              <div className="bg-gray-50 rounded-lg p-1 h-full max-h-[calc(100vh-4rem)] overflow-y-auto">
+              <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-1 h-full max-h-[calc(100vh-4rem)] overflow-y-auto">
                 {questions.every(q => activeTab === "wrong" ? quizState.answers[q.id] === q.correctAnswer : false) ? (
                   <p className="text-sm text-muted-foreground text-center">{t("noWrong")}</p>
                 ) : (
@@ -201,7 +200,7 @@ export function Quiz({
                           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-1">
                             {question.category && (
                               <span
-                                className={`order-1 sm:order-2 text-[8px] px-2 py-0.5 rounded-full whitespace-nowrap ml-0 sm:ml-4 shrink-0 ${categoryStyle.bg} ${categoryStyle.text}`}
+                                className={`w-fit order-1 sm:order-2 text-[8px] px-2 py-0.5 rounded-full whitespace-nowrap ml-0 sm:ml-4 shrink-0 ${categoryStyle.bg} ${categoryStyle.text}`}
                               >
                                 {question.category} ({question.indexInCategory})
                               </span>
@@ -210,18 +209,18 @@ export function Quiz({
                             <p className="order-2 sm:order-1 font-medium text-xs">
                               Q{index + 1}:{' '}
                               <span
-                                className="prose max-w-none inline text-xs sm:text-xs"
+                                className="prose max-w-none inline text-xs sm:text-xs dark:text-gray-200"
                                 dangerouslySetInnerHTML={{ __html: question.question ?? "" }}
                               />
                             </p>
                           </div>
 
 
-                          <p className={`text-xs px-2 py-1 rounded ${quizState.answers[question.id] === question.correctAnswer ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
+                          <p className={`text-xs px-2 py-1 rounded ${quizState.answers[question.id] === question.correctAnswer ? "bg-green-100 text-green-800 dark:bg-green-900 dark:bg-opacity-30 dark:text-green-100" : "bg-red-100 text-red-800 dark:bg-red-900 dark:bg-opacity-30 dark:text-red-100"}`}>
                             <span className="font-medium">{t("yourAnswer")}</span> {quizState.answers[question.id] || "Not answered"}
                           </p>
                           {isWrong && (
-                            <p className="text-xs px-2 py-1 rounded bg-green-100 text-green-800">
+                            <p className="text-xs px-2 py-1 rounded bg-green-100 text-green-800 dark:bg-green-900 dark:bg-opacity-30 dark:text-green-100">
                               <span className="font-medium">{t("correctAnswer")}</span> {question.correctAnswer}
                             </p>
                           )}
