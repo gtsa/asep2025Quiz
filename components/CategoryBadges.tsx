@@ -2,6 +2,7 @@
 
 import React from "react"
 import { categoryColorMap, defaultCategoryColor } from "@/lib/categoryColors"
+import { useTranslation } from "react-i18next"
 
 const CATEGORIES = [
   "Συνταγματικό Δίκαιο",
@@ -19,10 +20,13 @@ interface Props {
 }
 
 export const CategoryBadges: React.FC<Props> = ({ selected, onToggle }) => {
+
+  const { t } = useTranslation()
+
   return (
-    <div className="flex flex-wrap gap-2 justify-center bg-gray-100 dark:bg-gray-800 p-4 rounded-md">
+    <div className="flex flex-wrap gap-2 justify-center dark:bg-gray-800 p-4 rounded-md">
       <p className="text-muted-foreground text-center dark:text-gray-300">
-        Διάλεξε κατηγορίες για εξάσκηση:
+        {t("chooseCategories")}
       </p>
       {CATEGORIES.map((cat) => {
         const isActive = selected.includes(cat)

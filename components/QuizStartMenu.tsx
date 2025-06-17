@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/ui/Input"
 import { CategoryBadges } from "@/components/CategoryBadges"
 import { CATEGORIES } from "@/lib/constants"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 type QuizStartMenuProps = {
   onStart: (questionCount: number | "max", selectedCategories: string[]) => void
@@ -24,18 +26,23 @@ export const QuizStartMenu: React.FC<QuizStartMenuProps> = ({
   const [customCount, setCustomCount] = useState("")
 
   const handleCategoryToggle = (category: string) => {
-  setSelectedCategories(prev =>
-    prev.includes(category)
-      ? prev.filter(c => c !== category)
-      : [...prev, category]
-  )
-}
+    setSelectedCategories(prev =>
+      prev.includes(category)
+        ? prev.filter(c => c !== category)
+        : [...prev, category]
+    )
+  }
 
   const handleCustomStart = () => {
     const parsed = parseInt(customCount, 10)
     if (!isNaN(parsed) && parsed > 0) {
       onStart(parsed, selectedCategories)
     }
+  }
+
+  const { t, i18n } = useTranslation()
+  const toggleLanguage = () => {
+    i18n.changeLanguage(i18n.language === "el" ? "en" : "el")
   }
 
   return (
@@ -55,9 +62,9 @@ export const QuizStartMenu: React.FC<QuizStartMenuProps> = ({
             checked={isShuffled}
             onChange={(e) => setIsShuffled(e.target.checked)}
           />
-          Ανακατεμένες Απαντήσεις
+          {t("shuffled")} 
         </label>
-        <p className="text-muted-foreground text-center text-base pt-6 pb-4">Πόσες ερωτήσεις θέλεις για εξάσκηση;</p>
+        <p className="text-muted-foreground text-center text-base pt-6 pb-4">{t("howMany")}</p>
         <div className="flex flex-wrap gap-2 justify-center">
           {[10, 20, 50].map((count) => (
             <Button
@@ -65,10 +72,11 @@ export const QuizStartMenu: React.FC<QuizStartMenuProps> = ({
               size="sm"
               onClick={() => onStart(count, selectedCategories)}
             >
-              {count} Ερωτήσεις
+              {count} {t("questions")}
             </Button>
           ))}
           <Button key="all" size="sm" onClick={() => onStart("max", selectedCategories)}>
+            {t("question")} 
             Όλες
           </Button>
         </div>
@@ -77,13 +85,13 @@ export const QuizStartMenu: React.FC<QuizStartMenuProps> = ({
           <Input
             type="number"
             min={1}
-            placeholder="Πόσες"
+            placeholder={t("howManyShort")}
             value={customCount}
             onChange={(e) => setCustomCount(e.target.value)}
             className="w-32 text-center"
           />
           <Button onClick={handleCustomStart} disabled={!customCount || parseInt(customCount) <= 0}>
-            Ερωτήσεις; (Δικό σου Αριθμός)
+            {t("yourNumber")} 
           </Button>
         </div>
       </div>
