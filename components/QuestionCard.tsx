@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/Button"
 import { categoryColorMap, defaultCategoryColor } from "@/lib/categoryColors"
 import type { Question } from "@/lib/types"
 import { cn } from "@/lib/utils"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 interface QuestionCardProps {
   question: Question
@@ -24,6 +26,11 @@ export function QuestionCard({
 }: QuestionCardProps) {
   const [shuffledOptions, setShuffledOptions] = useState<[string, string][]>([])
 
+  const { t, i18n } = useTranslation()
+  const toggleLanguage = () => {
+    i18n.changeLanguage(i18n.language === "el" ? "en" : "el")
+  }
+
   const categoryStyle = categoryColorMap[question.category ?? ""] ?? defaultCategoryColor
 
   useEffect(() => {
@@ -39,10 +46,10 @@ export function QuestionCard({
       <CardHeader className="pb-3">
         <div className="flex flex-row justify-between items-center gap-2 mb-3">
           <span className="text-xs font-medium text-muted-foreground">
-            Ερώτηση {questionNumber}
+            {t("question")} {questionNumber}
           </span>
           {question.category && (
-            <span   className={`text-[8px] px-2 py-1 rounded-full w-fit ${categoryStyle.bg} ${categoryStyle.text}`}>
+            <span className={`text-[8px] px-2 py-1 rounded-full w-fit ${categoryStyle.bg} ${categoryStyle.text}`}>
               {question.category} ({question.indexInCategory})
             </span>
           )}
@@ -79,7 +86,7 @@ export function QuestionCard({
               >
                 <div className="flex items-start gap-2 w-full">
                   <span className="font-bold text-xs flex-shrink-0 mt-0.5">
-                    {["α", "β", "γ", "δ"][index]}.
+                    {(t("optionLabels", { returnObjects: true }) as string[])[index]}.
                   </span>
                   <span className="text-xs leading-relaxed break-words flex-1 whitespace-normal">{option}</span>
                 </div>

@@ -10,6 +10,8 @@ import { useQuiz } from "@/hooks/use-quiz"
 import { ChevronLeft, ChevronRight, RotateCcw, Loader2 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { categoryColorMap, defaultCategoryColor } from "@/lib/categoryColors"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 export function Quiz({
   questionCount,
@@ -40,6 +42,10 @@ export function Quiz({
     resetQuiz,
   } = useQuiz()
 
+  const { t, i18n } = useTranslation()
+  const toggleLanguage = () => {
+    i18n.changeLanguage(i18n.language === "el" ? "en" : "el")
+  }
 
   useEffect(() => {
     const count = questionCount === "max" ? undefined : questionCount
@@ -55,8 +61,8 @@ export function Quiz({
       <div className="flex items-center justify-center min-h-[60vh] px-3">
         <div className="text-center">
           <Loader2 className="animate-spin h-8 w-8 text-blue-600 mx-auto mb-4" />
-          <p className="text-muted-foreground text-xs">Φόρτωση ερωτήσεων...</p>
-          <p className="text-sm text-muted-foreground mt-2">Παρακαλούμε περιμένετε όσο ετοιμάζουμε το κουίζ σας.</p>
+          <p className="text-muted-foreground text-xs">{t("loading")}</p>
+          <p className="text-sm text-muted-foreground mt-2">{t("pleaseWait")}</p>
         </div>
       </div>
     )
@@ -68,10 +74,10 @@ export function Quiz({
         <Card className="w-full mx-auto">
           <CardContent className="pt-3 text-center">
             <div className="text-red-500 text-4xl mb-4">⚠️</div>
-            <h3 className="text-xs font-semibold mb-2">Ουπς! Κάτι πήγε στραβά.</h3>
+            <h3 className="text-xs font-semibold mb-2">{t("errorTitle")}</h3>
             <p className="text-red-600 mb-6 text-sm">{error}</p>
             <Button onClick={() => window.location.reload()} className="w-full sm:w-auto" size="sm">
-              Try Again
+              {t("tryAgain")}
             </Button>
           </CardContent>
         </Card>
@@ -85,8 +91,8 @@ export function Quiz({
         <Card className="w-full mx-auto">
           <CardContent className="pt-3 text-center">
             <div className="text-gray-400 text-4xl mb-4">📝</div>
-            <p className="text-muted-foreground text-xs">Δεν υπάρχουν διαθέσιμες ερωτήσεις.</p>
-            <p className="text-sm text-muted-foreground mt-2">Παρακαλούμε ελέγξτε ξανά αργότερα.</p>
+            <p className="text-muted-foreground text-xs">{t("noQuestions")}</p>
+            <p className="text-sm text-muted-foreground mt-2">{t("checkLater")}</p>
           </CardContent>
         </Card>
       </div>
@@ -136,10 +142,10 @@ export function Quiz({
               {percentage}%
             </div>
             <CardTitle className={`text-base sm:text-sm font-semibold ${styles.text}`}>
-              Επιτυχία{percentage === 100 ? " 🎉" : ""}
+              {t("success")}{percentage === 100 ? " 🎉" : ""}
             </CardTitle>
             {percentage < 50 && (
-              <p className="text-sm font-medium text-red-600 mt-2">Προσπάθησε περισσότερο — μπορείς να τα καταφέρεις!</p>
+              <p className="text-sm font-medium text-red-600 mt-2">{t("encouragement")}</p>
             )}
           </CardHeader>
           {/* <CardContent className="text-center space-y-4  px-2"> */}
@@ -147,41 +153,42 @@ export function Quiz({
             <div className={`rounded-lg p-2 text-center ${styles.softBg}`}>
               {/* leading-relaxed prose-sm max-w-none */}
               <span className={`prose-base max-w-none ${styles.softText}`}>
-                Απάντησες σωστά {quizState.score} στις {questions.length} ερωτήσεις
+                {t("correct")} {quizState.score} {t("on")} {questions.length} {t("questions")}
               </span>
               <p className={`text-sm mt-1 ${styles.softTextAlt}`}>
                 {percentage === 100
-                  ? "Τέλεια επίδοση! 🎯"
+                  ? t("finalMessage100")
                   : percentage >= 75
-                  ? "Σχεδόν τέλεια! Μπράβο σου!"
+                  ? t("finalMessage75")
                   : percentage >= 50
-                  ? "Συνέχισε έτσι, είσαι σε καλό δρόμο!"
-                  : "Επανάληψη και προσπάθησε ξανά!"}
+                  ? t("finalMessage50")
+                  : t("finalMessageElse")
+                }
               </p>
             </div>
 
             <div className="space-y-2">
-              <h3 className="font-semibold text-base text-center pt-2">Οι απαντήσεις σου</h3>
+              <h3 className="font-semibold text-base text-center pt-2">{t("yourAnswers")}</h3>
               <div className="flex gap-1 justify-center">
                 <Button
                   variant={activeTab === "all" ? "default" : "outline"}
                   onClick={() => setActiveTab("all")}
                   className="w-full px-2 py-1  h-auto"
                 >
-                  Όλες
+                  {t("all")}
                 </Button>
                 <Button
                   variant={activeTab === "wrong" ? "default" : "outline"}
                   onClick={() => setActiveTab("wrong")}
                   className="w-full px-2 py-1 h-auto"
                 >
-                  Λάθος Απαντήσεις
+                  {t("wrongAnswers")}
                 </Button>
               </div>
 
               <div className="bg-gray-50 rounded-lg p-1 h-full max-h-[calc(100vh-4rem)] overflow-y-auto">
                 {questions.every(q => activeTab === "wrong" ? quizState.answers[q.id] === q.correctAnswer : false) ? (
-                  <p className="text-sm text-muted-foreground text-center">Καμμία λάθος απάντηση 🎉</p>
+                  <p className="text-sm text-muted-foreground text-center">{t("noWrong")}</p>
                 ) : (
                   <div className="space-y-3 text-left">
                     {questions.map((question, index) => {
@@ -211,11 +218,11 @@ export function Quiz({
 
 
                           <p className={`text-xs px-2 py-1 rounded ${quizState.answers[question.id] === question.correctAnswer ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`}>
-                            <span className="font-medium">Απάντησή σου:</span> {quizState.answers[question.id] || "Not answered"}
+                            <span className="font-medium">{t("yourAnswer")}</span> {quizState.answers[question.id] || "Not answered"}
                           </p>
                           {isWrong && (
                             <p className="text-xs px-2 py-1 rounded bg-green-100 text-green-800">
-                              <span className="font-medium">Σωστό:</span> {question.correctAnswer}
+                              <span className="font-medium">{t("correctAnswer")}</span> {question.correctAnswer}
                             </p>
                           )}
                         </div>
@@ -229,7 +236,7 @@ export function Quiz({
             <div className="mt-auto pt-4 flex justify-center">
               <Button onClick={resetQuiz} className="w-full sm:w-auto" size="sm">
                 <RotateCcw className="w-3 h-3 mr-2" />
-                Δοκίμασε ξανά
+                {t("tryAgain")}
               </Button>
             </div>
           </CardContent>
@@ -243,7 +250,7 @@ export function Quiz({
       <div className="px-3">
         <Card className="w-full mx-auto">
           <CardContent className="pt-3 text-center">
-            <p className="text-muted-foreground">Δεν βρέθηκε η ερώτηση.</p>
+            <p className="text-muted-foreground">{t("noAnswer")}</p>
           </CardContent>
         </Card>
       </div>
@@ -259,7 +266,7 @@ export function Quiz({
               <button
                 className="flex items-center gap-2 px-2 py-1 rounded-md border border-gray-300 hover:bg-gray-100 text-xs font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600"
               >
-                Επιλεγμένες κατηγορίες:
+                {t("selectedCategories")}
                 <div className="flex gap-1">
                   {selectedCategories.map((cat) => {
                     const categoryStyle = categoryColorMap[cat] ?? defaultCategoryColor
@@ -299,10 +306,10 @@ export function Quiz({
               checked={isShuffled}
               onChange={(e) => setIsShuffled(e.target.checked)}
             />
-            <span className="text-sm text-gray-600">Ανακατεμένες Απαντήσεις</span>
+            <span className="text-sm text-gray-600">{t("shuffled")}</span>
           </div>
           <span className="text-sm font-medium text-blue-600">
-            {Object.keys(quizState.answers).length} από {questions.length} απαντήθηκαν
+            {Object.keys(quizState.answers).length} {t("of")} {questions.length} {t("answered")}
           </span>
         </div>
         <ProgressBar progress={progress} />
@@ -333,7 +340,7 @@ export function Quiz({
           size="sm"
         >
           <ChevronLeft className="w-3 h-3 mr-1" />
-          Προηγούμενη
+          {t("previous")}
         </Button>
         <Button
           onClick={nextQuestion}
@@ -345,7 +352,7 @@ export function Quiz({
           }`}
           size="sm"
         >
-          {quizState.currentQuestionIndex === questions.length - 1 ? "Τέλος" : "Επόμενη"}
+          {quizState.currentQuestionIndex === questions.length - 1 ? t("finish") : t("next")}
           <ChevronRight className="w-3 h-3 ml-1" />
         </Button>
       </div>

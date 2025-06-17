@@ -5,11 +5,18 @@ import { Quiz } from "@/components/Quiz"
 import { QuizStartMenu } from "@/components/QuizStartMenu"
 import { CATEGORIES } from "@/lib/constants"
 import { Moon, Sun } from "lucide-react"
+import "@/lib/i18n"
+import { useTranslation } from "react-i18next"
 
 export default function Home() {
   const [hasMounted, setHasMounted] = useState(false)
   const [questionCount, setQuestionCount] = useState<number | "max" | null>(null)
   const [isQuizCompleted, setIsQuizCompleted] = useState(false)
+
+  const { t, i18n } = useTranslation()
+  const toggleLanguage = () => {
+    i18n.changeLanguage(i18n.language === "el" ? "en" : "el")
+  }
 
   useEffect(() => {
     setHasMounted(true)
@@ -83,7 +90,7 @@ export default function Home() {
         <div className="bg-white shadow-sm border-b sticky top-0 z-30 dark:bg-gray-800 dark:border-gray-700" style={{ boxShadow: '0 2px 12px rgba(1, 28, 75, 0.68)' }}>
           <div className="container mx-auto px-3 py-3">
             <h1 className="text-2xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 text-center text-blue-900 dark:text-white">
-              Εξάσκηση ΑΣΕΠ 2025
+              {t("title")}
             </h1>
           </div>
         </div>
@@ -112,20 +119,20 @@ export default function Home() {
 
       {/* Footer */}
       <div className="container mx-auto px-3 py-1 text-center">
-        <div className="text-xs text-gray-500 dark:text-gray-300 flex items-center justify-center gap-x-2">
-          <span>BUTTON 1</span>
-          <button onClick={toggleDarkMode} title="Theme toggle" className="p-1 hover:opacity-80 transition">
-            {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
+        <div className="text-xs text-gray-500 dark:text-gray-300 flex items-center justify-center" style={{ gap: '1.5vw' }}>
+          <button onClick={toggleLanguage} className="hover:opacity-80">
+            {i18n.language === "el" ? "English" : "Ελληνικά"}
           </button>
-          <span> •  Σύρε ή πάτησε για πλοήγηση  •  🄯 2025 geotsa</span>
+          <span>•</span>
+          <button onClick={toggleDarkMode} title="Theme toggle" className="p-1 hover:opacity-80 transition">
+            {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+          <span>•</span>
+          <span>{t("footer")}</span>
+          <span>•</span>
+          <span>🄯 2025 geotsa</span>
         </div>
       </div>
-
-
-
-
-
-
     </div>
   )
 }
