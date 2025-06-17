@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/ui/Input"
 import { CategoryBadges } from "@/components/CategoryBadges"
 import { CATEGORIES } from "@/lib/constants"
-import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
 
 type QuizStartMenuProps = {
