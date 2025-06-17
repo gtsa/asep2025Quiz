@@ -80,11 +80,16 @@ export default function Home() {
     }
   }, [selectedCategories])
 
+  useEffect(() => {
+    console.log("i18n.language", i18n.language)
+    console.log("detected language (localStorage)", localStorage.getItem("i18nextLng"))
+  }, [])
+
   // ✅ only *render* conditionally, not call hooks conditionally
   if (!hasMounted || selectedCategories === null) return null
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="relative min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
 
       {/* Header */}
       {!isQuizCompleted && (
@@ -97,8 +102,8 @@ export default function Home() {
         </div>
       )}
 
-      {/* Main */}
-      <div className="container mx-auto min-h-[calc(100vh-6rem)] flex flex-col py-0 sm:py-8">
+      {/* Main Content with Bottom Padding */}
+      <div className="container mx-auto flex flex-col py-0 sm:py-8 pb-28">
         {questionCount === null ? (
           <QuizStartMenu
             onStart={(count) => setQuestionCount(count)}
@@ -118,20 +123,22 @@ export default function Home() {
         )}
       </div>
 
-      {/* Footer */}
-      <div className="container mx-auto px-3 py-1 text-center">
-        <div className="text-xs text-gray-500 dark:text-gray-300 flex items-center justify-center" style={{ gap: '1.5vw' }}>
-          <button onClick={toggleLanguage} className="hover:opacity-80">
-            {i18n.language === "el" ? "English" : "Ελληνικά"}
-          </button>
-          <span>•</span>
-          <button onClick={toggleDarkMode} title="Theme toggle" className="p-1 hover:opacity-80 transition">
-            {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
-          <span>•</span>
-          <span>{t("footer")}</span>
-          <span>•</span>
-          <span>🄯 2025 geotsa</span>
+      {/* Fixed Footer that overlays the bottom */}
+      <div className="fixed bottom-0 left-0 w-full bg-white/80 dark:bg-gray-900/90 backdrop-blur-sm border-t dark:border-gray-700 z-50">
+        <div className="container mx-auto px-3 py-2 text-center">
+          <div className="text-xs text-gray-500 dark:text-gray-300 flex items-center justify-center" style={{ gap: '1vw' }}>
+            <button onClick={toggleLanguage} className="hover:opacity-80">
+              {i18n.language === "el" ? "English" : "Ελληνικά"}
+            </button>
+            <span>•</span>
+            <button onClick={toggleDarkMode} title="Theme toggle" className="p-1 hover:opacity-80 transition">
+              {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+            <span>•</span>
+            <span>{t("footer")}</span>
+            <span>•</span>
+            <span>🄯 2025 geotsa</span>
+          </div>
         </div>
       </div>
 
