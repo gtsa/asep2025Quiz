@@ -1,12 +1,13 @@
 {
-  "name": "ΑΣΕΠ 2025 Practice Quiz",
+  "name": "Εξάσκηση ΑΣΕΠ 2025",
   "short_name": "ΑΣΕΠ Quiz",
   "start_url": "/?source=pwa",
   "display": "standalone",
-  "background_color": "#e942ff",
+  "background_color": "#0c3771",
   "theme_color": "#06102a",
   "orientation": "portrait",
-  "description": "Practice and prepare for the 2025 ASEP exams",
+  "lang": "el",
+  "description": "Διαδραστικό quiz προετοιμασίας για τις εξετάσεις ΑΣΕΠ 2025. Παίξε δωρεάν και δες το σκορ σου.",
   "icons": [
     {
       "src": "/icons/icon-16.png",
