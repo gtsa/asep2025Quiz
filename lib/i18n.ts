@@ -47,7 +47,12 @@ i18n
           finish: "Τέλος",
           yourAnswer: "Απάντησή σου:",
           correctAnswer: "Σωστό:",
-          chooseCategories: "Διάλεξε κατηγορίες για εξάσκηση:"
+          chooseCategories: "Διάλεξε κατηγορίες για εξάσκηση:",
+          installLine1: "Εγκαταστήστε την",
+          installLine2: "για καλύτερη εμπειρία πλήρους οθόνης!",
+          installButton: "Εγκατάσταση",
+          laterButton: "Ίσως αργότερα"
+}
         }
       },
       en: {
@@ -88,9 +93,12 @@ i18n
           finish: "Finish",
           yourAnswer: "You answered:",
           correctAnswer: "Correct answer:",
-          chooseCategories: "Choose categories to practice:"
+          chooseCategories: "Choose categories to practice:",
+          installLine1: "Install",
+          installLine2: "for a better fullscreen experience!",
+          installButton: "Install",
+          laterButton: "Maybe Later"
         }
-      }
     }
   })
 

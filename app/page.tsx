@@ -7,6 +7,7 @@ import { CATEGORIES } from "@/lib/constants"
 import { Moon, Sun } from "lucide-react"
 import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
+import PWAInstallPrompt from "../components/PWAInstallPrompt";
 
 export default function Home() {
   const [hasMounted, setHasMounted] = useState(false)
@@ -133,6 +134,8 @@ export default function Home() {
           <span>🄯 2025 geotsa</span>
         </div>
       </div>
+
+      <PWAInstallPrompt />
     </div>
   )
 }
