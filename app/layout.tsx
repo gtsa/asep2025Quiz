@@ -1,8 +1,9 @@
-import type { Metadata, Viewport } from "next"
-import { Inter } from "next/font/google"
-import "./globals.css"
+import type { Metadata, Viewport } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import ServiceWorkerRegister from '@/components/ServiceWorkerRegister' // ✅ adjust path if needed
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: {
@@ -37,19 +38,15 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  width: "device-width",
+  width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
 }
 
-export const themeColor = "#2563eb"
+export const themeColor = '#2563eb'
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="el">
       <head>
@@ -69,14 +66,13 @@ export default function RootLayout({
         <link rel="alternate" hreflang="en" href="https://asep2025.otter-verse.com" />
         <meta name="keywords" content="ΑΣΕΠ, ΑΣΕΠ 2025, quiz, εξάσκηση, προετοιμασία, δημόσιο, τεστ, Παιδεία, Δίκαιο, Οικονομικά" />
 
-
-        {/* OG + Twitter extras */}
+        {/* OG + Twitter */}
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="el_GR" />
         <meta property="og:image" content="/og-image.png" />
         <meta name="twitter:image" content="/og-image.png" />
 
-        {/* Structured Data (WebApplication) */}
+        {/* Structured Data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -87,13 +83,14 @@ export default function RootLayout({
               "applicationCategory": "EducationApplication",
               "operatingSystem": "All",
               "url": "https://asep2025.otter-verse.com",
-              "description":
-                "Διαδραστικό quiz εξάσκησης για υποψηφίους του ΑΣΕΠ 2025. Παίξε με ερωτήσεις πολλαπλής επιλογής από Παιδεία, Δίκαιο, Οικονομικά και άλλα.",
+              "description": "Διαδραστικό quiz εξάσκησης για υποψηφίους του ΑΣΕΠ 2025. Παίξε με ερωτήσεις πολλαπλής επιλογής από Παιδεία, Δίκαιο, Οικονομικά και άλλα.",
             }),
           }}
         />
+
       </head>
       <body className={`${inter.className} antialiased`}>
+        <ServiceWorkerRegister /> {/* ✅ Registers /sw.js */}
         {children}
       </body>
     </html>
