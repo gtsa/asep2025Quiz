@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import ServiceWorkerRegister from '@/components/ServiceWorkerRegister' // ✅ adjust path if needed
+import PlausibleTracker from "@/components/PlausibleTracker"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -87,6 +88,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }),
           }}
         />
+
+        <PlausibleTracker />
 
       </head>
       <body className={`${inter.className} antialiased`}>
