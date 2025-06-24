@@ -90,7 +90,6 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-
       {/* Header */}
       {!isQuizCompleted && (
         <div className="bg-white shadow-sm border-b sticky top-0 z-30 dark:bg-gray-800 dark:border-gray-700" style={{ boxShadow: '0 2px 12px rgba(1, 28, 75, 0.68)' }}>

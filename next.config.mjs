@@ -17,7 +17,7 @@ const nextConfig = {
     if (!isServer && !isDev) {
       config.plugins.push(
         new GenerateSW({
-          swDest: 'sw.js',
+          swDest: 'public/sw.js',
           skipWaiting: true,
           clientsClaim: true,
           runtimeCaching: [
