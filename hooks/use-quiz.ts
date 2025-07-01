@@ -47,7 +47,7 @@ export function useQuiz() {
     }
   }, [questions])
 
-  const fetchQuestions = async (limit?: number, categories?: string[]) => {
+  const fetchQuestions = async (phase: string | null, limit?: number, categories?: string[]) => {
     try {
       setQuizState({
         currentQuestionIndex: 0,
@@ -63,6 +63,14 @@ export function useQuiz() {
         categories.forEach(cat => params.append("categories", cat))
         setSelectedCategories(categories)
       }
+      
+      if (phase) {
+      const number = parseInt(phase.split("_")[1], 10)
+      if (!isNaN(number)) {
+          params.append("phase", String(number))
+        }
+      }
+
 
       const response = await fetch(`/api/questions?${params.toString()}`)
       const data = await response.json()

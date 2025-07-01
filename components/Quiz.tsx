@@ -12,18 +12,25 @@ import { motion, AnimatePresence } from "framer-motion"
 import { categoryColorMap, defaultCategoryColor } from "@/lib/categoryColors"
 import { useTranslation } from "react-i18next"
 
+type PhaseValue = "phase_1" | "phase_2" | "phase_3"
+
 export function Quiz({
   questionCount,
   isShuffled,
   setIsShuffled,
   selectedCategories,
-  setIsQuizCompleted
+  setIsQuizCompleted,
+  setShowQuiz,
+  phase
 }: {
   questionCount: number | "max"
   isShuffled: boolean
   setIsShuffled: (value: boolean) => void
   selectedCategories: string[]
   setIsQuizCompleted: (val: boolean) => void
+  setShowQuiz: (val: boolean) => void
+  phase: PhaseValue | null
+
 }) {
   const [activeTab, setActiveTab] = useState<"all" | "wrong">("all")
   const {
@@ -48,7 +55,7 @@ export function Quiz({
 
   useEffect(() => {
     const count = questionCount === "max" ? undefined : questionCount
-    fetchQuestions(count, selectedCategories)
+    fetchQuestions(phase, count, selectedCategories)
   }, [questionCount, selectedCategories])
 
   useEffect(() => {
@@ -233,7 +240,15 @@ export function Quiz({
             </div>
 
             <div className="mt-auto pt-4 flex justify-center">
-              <Button onClick={resetQuiz} className="w-full sm:w-auto" size="sm">
+              <Button
+                onClick={() => {
+                  resetQuiz()
+                  setIsQuizCompleted(false)
+                  setShowQuiz(false)
+                }}
+                className="w-full sm:w-auto"
+                size="sm"
+              >
                 <RotateCcw className="w-3 h-3 mr-2" />
                 {t("tryAgain")}
               </Button>

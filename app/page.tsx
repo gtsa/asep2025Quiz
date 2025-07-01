@@ -9,8 +9,11 @@ import "@/lib/i18n"
 import { useTranslation } from "react-i18next"
 import PWAInstallPrompt from "../components/PWAInstallPrompt";
 
+type PhaseValue = "phase_1" | "phase_2" | "phase_3"
+
 export default function Home() {
   const [hasMounted, setHasMounted] = useState(false)
+  const [showQuiz, setShowQuiz] = useState(false)
   const [questionCount, setQuestionCount] = useState<number | "max" | null>(null)
   const [isQuizCompleted, setIsQuizCompleted] = useState(false)
 
@@ -53,6 +56,8 @@ export default function Home() {
     }
   }, [])
 
+  const [phase, setPhase] = useState<PhaseValue | null>(null)
+
   const toggleDarkMode = () => {
     const newTheme = !isDarkMode
     setIsDarkMode(newTheme)
@@ -80,11 +85,6 @@ export default function Home() {
     }
   }, [selectedCategories])
 
-  useEffect(() => {
-    console.log("i18n.language", i18n.language)
-    console.log("detected language (localStorage)", localStorage.getItem("i18nextLng"))
-  }, [])
-
   // ✅ only *render* conditionally, not call hooks conditionally
   if (!hasMounted || selectedCategories === null) return null
 
@@ -103,13 +103,19 @@ export default function Home() {
 
       {/* Main Content with Bottom Padding */}
       <div className="container mx-auto flex flex-col py-0 sm:py-8 pb-28">
-        {questionCount === null ? (
+        {questionCount === null || !showQuiz ? (
           <QuizStartMenu
-            onStart={(count) => setQuestionCount(count)}
+            onStart={(count, categories, selectedPhase) => {
+              setQuestionCount(count)
+              setSelectedCategories(categories)
+              setPhase(selectedPhase) // ⬅️ add this
+              setShowQuiz(true)
+            }}
             selectedCategories={selectedCategories}
             setSelectedCategories={setSelectedCategories}
             isShuffled={isShuffled}
             setIsShuffled={setIsShuffled}
+            lastUsedQuestionCount={questionCount}
           />
         ) : (
           <Quiz
@@ -117,7 +123,9 @@ export default function Home() {
             isShuffled={isShuffled}
             setIsShuffled={setIsShuffled}
             selectedCategories={selectedCategories}
+            phase={phase}
             setIsQuizCompleted={setIsQuizCompleted}
+            setShowQuiz={setShowQuiz}
           />
         )}
       </div>

@@ -52,7 +52,10 @@ if (!i18n.isInitialized) {
             installLine1: "Εγκαταστήστε το",
             installLine2: "για καλύτερη εμπειρία πλήρους οθόνης!",
             installButton: "Εγκατάσταση",
-            laterButton: "Ίσως αργότερα"
+            laterButton: "Ίσως αργότερα",
+            phase_1: "Φάση 1",
+            phase_2: "Φάση 2",
+            phase_3: "Φάση 3"
           }
         },
         en: {
@@ -97,7 +100,10 @@ if (!i18n.isInitialized) {
             installLine1: "Install",
             installLine2: "for a better fullscreen experience!",
             installButton: "Install",
-            laterButton: "Maybe Later"
+            laterButton: "Maybe Later",
+            phase_1: "Phase 1",
+            phase_2: "Phase 2",
+            phase_3: "Phase 3"
           }
         }
       },
