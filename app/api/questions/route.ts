@@ -10,8 +10,9 @@ export async function GET(request: Request) {
     const url = new URL(request.url)
     const limitParam = url.searchParams.get("limit")
     const categoryParams = url.searchParams.getAll("categories")
+    const phase = url.searchParams.getAll("phase")
 
-    const filePath = path.join(process.cwd(), "public", "data", "data_asep.csv")
+    const filePath = path.join(process.cwd(), "public", "data", `data_asep_${phase}.csv`)
     const csvBuffer = await fs.readFile(filePath)
     const csvText = csvBuffer.toString("utf-8")
 
