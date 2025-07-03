@@ -1,8 +1,8 @@
-[{
+    [{
       "relation": ["delegate_permission/common.handle_all_urls"],
       "target": {
         "namespace": "android_app",
         "package_name": "com.otter_verse.asep2025.twa",
-        "sha256_cert_fingerprints": ["8C:F4:62:51:4E:EF:F0:5C:5F:3B:B2:4E:71:AD:9C:DD:A7:21:62:79:62:0C:23:89:C3:26:A6:F9:E6:C3:37:C1"]
+        "sha256_cert_fingerprints": ["C9:01:D6:13:77:53:04:83:4A:60:F5:91:6E:0D:F0:39:F7:0A:2E:DF:CE:ED:41:01:1E:84:4A:63:E3:46:50:0C"]
       }
     }]
