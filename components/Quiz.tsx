@@ -11,6 +11,7 @@ import { ChevronLeft, ChevronRight, RotateCcw, Loader2 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { categoryColorMap, defaultCategoryColor } from "@/lib/categoryColors"
 import { useTranslation } from "react-i18next"
+import { trackQuizFinished, trackScreenView } from "@/hooks/use-plausible-events"
 
 type PhaseValue = "phase_1" | "phase_2" | "phase_3"
 
@@ -60,7 +61,27 @@ export function Quiz({
 
   useEffect(() => {
     setIsQuizCompleted(quizState.isCompleted)
-  }, [quizState.isCompleted, setIsQuizCompleted])
+
+    const screenType = quizState.isCompleted
+      ? "results"
+      : currentQuestion
+      ? "question"
+      : "loading"
+
+    trackScreenView(screenType, {
+      questionIndex: quizState.currentQuestionIndex,
+      answered: Object.keys(quizState.answers).length,
+      total: questions.length,
+    })
+
+    if (quizState.isCompleted) {
+      trackQuizFinished({
+        score: quizState.score,
+        total: questions.length,
+      })
+    }
+  }, [quizState.isCompleted, quizState.currentQuestionIndex])
+
 
   if (loading) {
     return (

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import type { Question, QuizState } from "@/lib/types"
+import { trackScreenView } from "@/hooks/use-plausible-events"
 
 // Utility to shuffle question options once
 function shuffleAnswers(questions: Question[]): Question[] {
@@ -102,6 +103,12 @@ export function useQuiz() {
         [currentQuestion.id]: actualAnswer,
       },
     }))
+
+    trackScreenView("answer", {
+      questionId: currentQuestion.id,
+      category: currentQuestion.category,
+      correct: actualAnswer === currentQuestion.correctAnswer,
+    })
   }
 
   const nextQuestion = () => {

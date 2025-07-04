@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/Input"
 import { CategoryBadges } from "@/components/CategoryBadges"
 import { CATEGORIES } from "@/lib/constants"
 import { useTranslation } from "react-i18next"
+import { trackQuizStarted } from "@/hooks/use-plausible-events"
 
 type PhaseValue = "phase_1" | "phase_2" | "phase_3"
 
@@ -62,6 +63,11 @@ export const QuizStartMenu: React.FC<QuizStartMenuProps> = ({
   const handleCustomStart = () => {
     const parsed = parseInt(customCount, 10)
     if (!isNaN(parsed) && parsed > 0) {
+      trackQuizStarted({
+        categories: selectedCategories,
+        phase: selectedPhase,
+        questionCount: parsed,
+      })
       onStart(parsed, selectedCategories, selectedPhase)
     }
   }
@@ -118,7 +124,14 @@ export const QuizStartMenu: React.FC<QuizStartMenuProps> = ({
             <Button
               key={count}
               size="sm"
-              onClick={() => onStart(count, selectedCategories, selectedPhase)}
+              onClick={() => {
+                trackQuizStarted({
+                  categories: selectedCategories,
+                  phase: selectedPhase,
+                  questionCount: count,
+                })
+                onStart(count, selectedCategories, selectedPhase)}
+              }
             >
               {count} {t("questions")}
             </Button>

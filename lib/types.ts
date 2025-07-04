@@ -19,3 +19,9 @@ export interface QuizState {
 export interface CSVRow {
   [key: string]: string
 }
+
+declare global {
+  interface Window {
+    plausible?: (eventName: string, options?: { props?: Record<string, any> }) => void;
+  }
+}
