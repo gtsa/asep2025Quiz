@@ -22,6 +22,11 @@ export interface CSVRow {
 
 declare global {
   interface Window {
-    plausible?: (eventName: string, options?: { props?: Record<string, any> }) => void;
+    plausible?: (
+      eventName: string,
+      options?: 
+        | { props?: Record<string, any> }
+        | { u: string }
+    ) => void;
   }
 }
